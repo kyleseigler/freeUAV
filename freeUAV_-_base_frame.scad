@@ -1,22 +1,35 @@
 // freeMAV_-_base_frame.scad
 
-$fn=200;
+// Global settings
+$fn=200; // 200 default (smoother curves)
 
-// dimensional settings (all measurements in mm)
-motorDiameter=7.5;
-motorSpacingX=80;
-motorSpacingY=80;
-electricsCarrierLength=50;
-electricsCarrierWidth=32;
-electricsCarrierThickness=3;
+// Dimensional settings (all measurements in mm)
+// WARNING: Some of these scale, some don't (this is a WIP).
+// Default values in comments--these should work properly.
+motorDiameter=7.5;            // 7.5 default
+motorSpacingX=80;             // 80 default
+motorSpacingY=80;             // 80 default
+electricsCarrierLength=50;    // 50 default
+electricsCarrierWidth=32;     // 32 default
+electricsCarrierThickness=3;  // 3 default
 
-// complete base frame
-//motorHousingsTri();
-//motorArmsTri();
-//motorHousingsQuad();
-//motorArmsQuad();
-electricsCarrierBase();
-//electricsCarrierUpper();
+// Which paradigm to generate and with/without upper panel
+toBeGenerated="quad";
+loadElectricsCarrierUpper="true";
+
+if(toBeGenerated=="quad"){
+  motorHousingsQuad();
+  motorArmsQuad();
+  electricsCarrierBase();
+}
+if(toBeGenerated=="tri"){
+  motorHousingsTri();
+  motorArmsTri();
+  electricsCarrierBase();
+}
+if(loadElectricsCarrierUpper=="true"){
+  electricsCarrierUpper();
+}
 
 module motorArmsTri(){
   difference(){
