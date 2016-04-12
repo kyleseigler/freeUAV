@@ -170,21 +170,23 @@ module electricsCarrierBase(){
       }
       difference(){
         // honeycomb mesh
-        union(){
-          translate([motorSpacingX/2-electricsCarrierLength/2+5,motorSpacingY/2-electricsCarrierWidth/2+4,0]){
-            for(x=[0,10,20,30,40,50,60,70]){
-              for(y=[0,6,12,18,24,30,36,42,48]){
-                translate([x,y,-0.1]){
-                  cylinder($fn=6,h=electricsCarrierThickness+0.2,r=2.8);
+        translate([motorSpacingX/2,motorSpacingY/2,0]){
+          union(){
+            translate([0,0,0]){
+              for(x=[-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60]){
+                for(y=[-48,-42,-36,-30,-24,-18,-12,-6,0,6,12,18,24,30,36,42,48]){
+                  translate([x,y,-0.1]){
+                    cylinder($fn=6,h=electricsCarrierThickness+0.2,r=2.8);
+                  }
                 }
               }
             }
-          }
-          translate([motorSpacingX/2-electricsCarrierLength/2+10,motorSpacingY/2-electricsCarrierWidth/2+7,0]){
-            for(x=[0,10,20,30,40,50,60,70]){
-              for(y=[-12,-6,0,6,12,18,24,30,36,42,48]){
-                translate([x,y,-0.1]){
-                  cylinder($fn=6,h=electricsCarrierThickness+0.2,r=2.8);
+            translate([5,3,0]){
+              for(x=[-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60]){
+                for(y=[-48,-42,-36,-30,-24,-18,-12,-6,0,6,12,18,24,30,36,42,48]){
+                  translate([x,y,-0.1]){
+                    cylinder($fn=6,h=electricsCarrierThickness+0.2,r=2.8);
+                  }
                 }
               }
             }
