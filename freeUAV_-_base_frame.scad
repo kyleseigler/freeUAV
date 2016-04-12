@@ -28,12 +28,12 @@ motorDiameter=7.5;            // 7.5 default
 motorSpacingX=80;             // 80 default
 motorSpacingY=80;             // 80 default
 electricsCarrierLength=50;    // 50 default
-electricsCarrierWidth=36;     // 32 default
+electricsCarrierWidth=34.5;     // 34.5 default
 electricsCarrierThickness=3;  // 3 default
 
 // Which paradigm to generate and with/without upper panel
 toBeGenerated="quad";
-loadElectricsCarrierUpper="false";
+loadElectricsCarrierUpper="true";
 
 if(toBeGenerated=="quad"){
   motorHousingsQuad();
