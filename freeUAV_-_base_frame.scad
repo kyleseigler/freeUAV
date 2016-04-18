@@ -24,21 +24,22 @@ $fn=200; // 200 default (smoother curves)
 // Dimensional settings (all measurements in mm)
 // WARNING: Some of these scale, some don't (this is a WIP).
 // Default values in comments--these should work properly.
-motorDiameter=7.5;            // 7.5 default
-motorSpacingX=80;             // 80 default
-motorSpacingY=80;             // 80 default
-electricsCarrierLength=50;    // 50 default
-electricsCarrierWidth=34.5;     // 34.5 default
-electricsCarrierThickness=3;  // 3 default
+motorDiameter=8.5;                  // 7.5 default
+motorSpacingX=80;                   // 80 default
+motorSpacingY=80;                   // 80 default
+electricsCarrierLength=50;          // 50 default
+electricsCarrierWidth=40;         // 34.5 default
+electricsCarrierThickness=3;        // 3 default
 
 // Which paradigm to generate and with/without upper panel
-toBeGenerated="quad";
-loadElectricsCarrierUpper="true";
+toBeGenerated="quad";               // quad default
+loadElectricsCarrierUpper="true";  // false default
 
 if(toBeGenerated=="quad"){
   motorHousingsQuad();
   motorArmsQuad();
   electricsCarrierBase();
+  naze32Carrier();
 }
 if(toBeGenerated=="tri"){
   motorHousingsTri();
@@ -49,6 +50,20 @@ if(loadElectricsCarrierUpper=="true"){
   electricsCarrierUpper();
 }
 
+module  naze32Carrier(){
+  for(x=[(motorSpacingX/2)-15.25,(motorSpacingX/2)+15.25]){
+    for(y=[(motorSpacingY/2)-15.25,(motorSpacingY/2)+15.25]){
+      difference(){
+        translate([x,y,0]){
+          cylinder(h=3,r=4);
+        }
+        translate([x,y,-0.1]){
+          cylinder(h=3.2,r=1.7);
+        }
+      }
+    }
+  }
+}
 module motorArmsTri(){
   difference(){
     union(){
@@ -99,6 +114,51 @@ module motorArmsTri(){
   }
 }
 module motorArmsQuad(){
+  difference(){
+    union(){
+      translate([40,40,0]){
+        for(r=[45,135]){
+          rotate([0,0,r]){
+            scale([3,1,1]){
+              difference(){
+                translate([0,0,0]){
+                  cylinder(h=3,r=20);
+                }
+                scale([1.1,.7,1]){
+                  translate([0,0,-0.1]){
+                    cylinder(h=3.2,r=17);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    union(){
+      // honeycomb inset
+      translate([motorSpacingX/2,motorSpacingY/2,electricsCarrierThickness/2-2]){
+        cube(center=true,[electricsCarrierLength-4,electricsCarrierWidth-4,electricsCarrierThickness+4.1]);
+      }
+      for(x=[(.5*motorSpacingX)-(electricsCarrierLength/2)+2,(.5*motorSpacingX)+(electricsCarrierLength/2)-2]){
+        for(y=[(.5*motorSpacingY)-(electricsCarrierWidth/2)+2,(.5*motorSpacingY)+(electricsCarrierWidth/2)-2]){
+          translate([x,y,-0.1]){
+            cylinder(h=3.2,r=1.7);
+          }
+        }
+      }
+      // motor openings
+      for(x=[0,motorSpacingX]){
+        for(y=[0,motorSpacingY]){
+          translate([x,y,-0.1]){
+            cylinder(h=20.2,r=(motorDiameter/2));
+          }
+        }
+      }
+    }
+  }
+}
+module motorArmsQuadOriginal(){
   difference(){
     union(){
       difference(){
@@ -201,14 +261,13 @@ module electricsCarrierBase(){
           }
         }
       }
-    for(x=[(.5*motorSpacingX)-(electricsCarrierLength/2)+2,(.5*motorSpacingX)+(electricsCarrierLength/2)-2]){
-      for(y=[(.5*motorSpacingY)-(electricsCarrierWidth/2)+2,(.5*motorSpacingY)+(electricsCarrierWidth/2)-2]){
-        translate([x,y,-0.1]){
-          cylinder(h=8.2,r=1.7);
+      for(x=[(.5*motorSpacingX)-(electricsCarrierLength/2)+2,(.5*motorSpacingX)+(electricsCarrierLength/2)-2]){
+        for(y=[(.5*motorSpacingY)-(electricsCarrierWidth/2)+2,(.5*motorSpacingY)+(electricsCarrierWidth/2)-2]){
+          translate([x,y,-0.1]){
+            cylinder(h=8.2,r=1.7);
+          }
         }
       }
-    }
-
     }
   }
   // posts and holes for M3 fasteners to connect lower base frame to upper frame cover
@@ -278,8 +337,8 @@ module motorHousingsTri(){
 }
 module motorHousingsQuad(){
   difference(){
-    for(x=[0,80]){
-      for(y=[0,80]){
+    for(x=[0,motorSpacingX]){
+      for(y=[0,motorSpacingY]){
         difference(){
           union(){
             translate([x,y,0]){
