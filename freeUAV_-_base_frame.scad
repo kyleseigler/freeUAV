@@ -28,7 +28,7 @@ motorDiameter=8.5;                  // 7.5 default
 motorSpacingX=80;                   // 80 default
 motorSpacingY=80;                   // 80 default
 electricsCarrierLength=50;          // 50 default
-electricsCarrierWidth=40;         // 34.5 default
+electricsCarrierWidth=26;         // 34.5 default
 electricsCarrierThickness=3;        // 3 default
 
 // Which paradigm to generate and with/without upper panel
@@ -39,7 +39,7 @@ if(toBeGenerated=="quad"){
   motorHousingsQuad();
   motorArmsQuad();
   electricsCarrierBase();
-  naze32Carrier();
+  microSciskyCarrier();
 }
 if(toBeGenerated=="tri"){
   motorHousingsTri();
@@ -50,7 +50,24 @@ if(loadElectricsCarrierUpper=="true"){
   electricsCarrierUpper();
 }
 
-module  naze32Carrier(){
+module microSciskyCarrier(){ // Micro Scisky dimensions (x,y,z): (33.5,20,6)
+  translate([39,40,6.5]){
+    difference(){
+      translate([0,0,-2.5]){
+        cube(center=true,[37.5,24,8]);
+      }
+      union(){
+        translate([2,0,-.5]){
+          cube(center=true,[35.6,20,2]);
+        }
+        translate([0,0,-2.5]){
+          cube(center=true,[37.7,19,8.2]);
+        }
+      }
+    }
+  }
+}
+module naze32Carrier(){
   for(x=[(motorSpacingX/2)-15.25,(motorSpacingX/2)+15.25]){
     for(y=[(motorSpacingY/2)-15.25,(motorSpacingY/2)+15.25]){
       difference(){
@@ -124,7 +141,7 @@ module motorArmsQuad(){
                 translate([0,0,0]){
                   cylinder(h=3,r=20);
                 }
-                scale([1.1,.7,1]){
+                scale([1.1,.85,1]){
                   translate([0,0,-0.1]){
                     cylinder(h=3.2,r=17);
                   }
@@ -342,28 +359,28 @@ module motorHousingsQuad(){
         difference(){
           union(){
             translate([x,y,0]){
-              cylinder(h=20,r=(motorDiameter/2+1.5));
+              cylinder(h=10,r=(motorDiameter/2+1.5));
             }
             translate([x,y,0]){
-              cylinder(h=6,r=(motorDiameter/2+4.5));
+              cylinder(h=5,r=(motorDiameter/2+4.5));
             }
           }
-          translate([x,y,-0.1]){
-            cylinder(h=20.2,r=(motorDiameter/2));
+          union(){
+            translate([x,y,2]){
+              cylinder(h=20.2,r=(motorDiameter/2));
+            }
+            translate([x,y,-0.1]){
+              cylinder(h=20.2,r=(motorDiameter/2)-.75);
+            }
           }
         }
       }
     }
-    difference(){
-      translate([motorSpacingX/2,motorSpacingY/2,0]){
-        for(r=[45,135]){
-          rotate([0,0,r]){
-            cube(center=true,[160,3,50]);
-          }
+    translate([motorSpacingX/2,motorSpacingY/2,0]){
+      for(r=[45,135]){
+        rotate([0,0,r]){
+          cube(center=true,[115,3,50]);
         }
-      }
-      translate([0,0,-0.2]){
-        cube([80,80,20.3]);
       }
     }
   }
