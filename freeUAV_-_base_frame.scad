@@ -25,19 +25,20 @@ $fn=200; // 200 default (smoother curves)
 // WARNING: Some of these scale, some don't (this is a WIP).
 // Default values in comments--these should work properly.
 motorDiameter=8.5;                  // 7.5 default
-motorSpacingX=80;                   // 80 default
-motorSpacingY=80;                   // 80 default
+motorSpacing=80;                   // 80 default
 electricsCarrierLength=50;          // 50 default
-electricsCarrierWidth=26;         // 34.5 default
+electricsCarrierWidth=26;           // 34.5 default
 electricsCarrierThickness=3;        // 3 default
+frameThickness=3;                   // 3 default
+frameWidth=4.5;                       // 3 default
 
 // Which paradigm to generate and with/without upper panel
 toBeGenerated="quad";               // quad default
-loadElectricsCarrierUpper="true";  // false default
+loadElectricsCarrierUpper="false";   // false default
 
 if(toBeGenerated=="quad"){
   motorHousingsQuad();
-  motorArmsQuad();
+  motorArmsQuadNew();
   electricsCarrierBase();
   microSciskyCarrier();
 }
@@ -50,6 +51,46 @@ if(loadElectricsCarrierUpper=="true"){
   electricsCarrierUpper();
 }
 
+
+module motorArmsQuadNew(){
+  difference(){
+    union(){ // Full circles for arms
+      for(x=[-40,120]){
+        for(y=[40]){
+          translate([x,y,frameThickness/2]){
+            difference(){
+              cylinder(center=true,h=frameThickness,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter));
+              cylinder(center=true,h=frameThickness+.2,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter)-frameWidth);
+            }
+          }
+        }
+      }
+      for(x=[40]){
+        for(y=[-40,120]){
+          translate([x,y,frameThickness/2]){
+            difference(){
+              cylinder(center=true,h=frameThickness,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter));
+              cylinder(center=true,h=frameThickness+.2,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter)-frameWidth);
+            }
+          }
+        }
+      }
+
+    }
+    difference(){ // Cube to remove excess of arms
+      translate([motorSpacing/2,motorSpacing/2,frameThickness/2]){
+        rotate([0,0,45]){
+          cube(center=true,[motorSpacing*4+.2,motorSpacing*4+.2,frameThickness+.2]);
+        }
+      }
+      translate([motorSpacing/2,motorSpacing/2,frameThickness/2]){
+        rotate([0,0,45]){
+          cube(center=true,[1/sin(45)*motorSpacing,1/sin(45)*motorSpacing,frameThickness+.4]);
+        }
+      }
+    }
+  }
+}
 module microSciskyCarrier(){ // Micro Scisky dimensions (x,y,z): (33.5,20,6)
   translate([39,40,6.5]){
     difference(){
@@ -68,8 +109,8 @@ module microSciskyCarrier(){ // Micro Scisky dimensions (x,y,z): (33.5,20,6)
   }
 }
 module naze32Carrier(){
-  for(x=[(motorSpacingX/2)-15.25,(motorSpacingX/2)+15.25]){
-    for(y=[(motorSpacingY/2)-15.25,(motorSpacingY/2)+15.25]){
+  for(x=[(motorSpacing/2)-15.25,(motorSpacing/2)+15.25]){
+    for(y=[(motorSpacing/2)-15.25,(motorSpacing/2)+15.25]){
       difference(){
         translate([x,y,0]){
           cylinder(h=3,r=4);
@@ -86,7 +127,7 @@ module motorArmsTri(){
     union(){
       // front arms
       difference(){
-        translate([28,motorSpacingY/2,1.5]){
+        translate([28,motorSpacing/2,1.5]){
           for(r=[180-54.5,180+54.5]){
             rotate([0,0,r]){
               cube(center=true,[92,4,3]);
@@ -99,7 +140,7 @@ module motorArmsTri(){
         }
       }
       // rear arm
-      translate([75,motorSpacingX/2,1.5]){
+      translate([75,motorSpacing/2,1.5]){
         cube(center=true,[40,4,3]);
       }
       // reinforcing circles
@@ -117,11 +158,11 @@ module motorArmsTri(){
     // remove honeycomb inset excess of arms
     union(){
       // honeycomb inset
-      translate([motorSpacingX/2,motorSpacingY/2,electricsCarrierThickness/2-2]){
+      translate([motorSpacing/2,motorSpacing/2,electricsCarrierThickness/2-2]){
         cube(center=true,[electricsCarrierLength-4,electricsCarrierWidth-4,electricsCarrierThickness+4.1]);
       }
-      for(x=[(.5*motorSpacingX)-(electricsCarrierLength/2)+2,(.5*motorSpacingX)+(electricsCarrierLength/2)-2]){
-        for(y=[(.5*motorSpacingY)-(electricsCarrierWidth/2)+2,(.5*motorSpacingY)+(electricsCarrierWidth/2)-2]){
+      for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
+        for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
           translate([x,y,-0.1]){
             cylinder(h=3.2,r=1.7);
           }
@@ -136,12 +177,12 @@ module motorArmsQuad(){
       translate([40,40,0]){
         for(r=[45,135]){
           rotate([0,0,r]){
-            scale([3,1,1]){
+            scale([3.266,1,1]){
               difference(){
                 translate([0,0,0]){
                   cylinder(h=3,r=20);
                 }
-                scale([1.1,.85,1]){
+                scale([1.1,.5,1]){ // 1.1,.5,1
                   translate([0,0,-0.1]){
                     cylinder(h=3.2,r=17);
                   }
@@ -154,19 +195,19 @@ module motorArmsQuad(){
     }
     union(){
       // honeycomb inset
-      translate([motorSpacingX/2,motorSpacingY/2,electricsCarrierThickness/2-2]){
+      translate([motorSpacing/2,motorSpacing/2,electricsCarrierThickness/2-2]){
         cube(center=true,[electricsCarrierLength-4,electricsCarrierWidth-4,electricsCarrierThickness+4.1]);
       }
-      for(x=[(.5*motorSpacingX)-(electricsCarrierLength/2)+2,(.5*motorSpacingX)+(electricsCarrierLength/2)-2]){
-        for(y=[(.5*motorSpacingY)-(electricsCarrierWidth/2)+2,(.5*motorSpacingY)+(electricsCarrierWidth/2)-2]){
+      for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
+        for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
           translate([x,y,-0.1]){
             cylinder(h=3.2,r=1.7);
           }
         }
       }
       // motor openings
-      for(x=[0,motorSpacingX]){
-        for(y=[0,motorSpacingY]){
+      for(x=[0,motorSpacing]){
+        for(y=[0,motorSpacing]){
           translate([x,y,-0.1]){
             cylinder(h=20.2,r=(motorDiameter/2));
           }
@@ -181,7 +222,7 @@ module motorArmsQuadOriginal(){
       difference(){
         union(){
         // front arms
-        translate([28,motorSpacingY/2,1.5]){
+        translate([28,motorSpacing/2,1.5]){
             for(r=[180-54.5,180+54.5]){
               rotate([0,0,r]){
                 cube(center=true,[92,4,3]);
@@ -189,7 +230,7 @@ module motorArmsQuadOriginal(){
             }
           }
           // rear arms
-          translate([52,motorSpacingY/2,1.5]){
+          translate([52,motorSpacing/2,1.5]){
             for(r=[180-54.5,180+54.5]){
               rotate([0,0,r]){
                 cube(center=true,[92,4,3]);
@@ -223,11 +264,11 @@ module motorArmsQuadOriginal(){
     // remove honeycomb inset excess of arms
     union(){
       // honeycomb inset
-      translate([motorSpacingX/2,motorSpacingY/2,electricsCarrierThickness/2-2]){
+      translate([motorSpacing/2,motorSpacing/2,electricsCarrierThickness/2-2]){
         cube(center=true,[electricsCarrierLength-4,electricsCarrierWidth-4,electricsCarrierThickness+4.1]);
       }
-      for(x=[(.5*motorSpacingX)-(electricsCarrierLength/2)+2,(.5*motorSpacingX)+(electricsCarrierLength/2)-2]){
-        for(y=[(.5*motorSpacingY)-(electricsCarrierWidth/2)+2,(.5*motorSpacingY)+(electricsCarrierWidth/2)-2]){
+      for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
+        for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
           translate([x,y,-0.1]){
             cylinder(h=3.2,r=1.7);
           }
@@ -239,15 +280,15 @@ module motorArmsQuadOriginal(){
 module electricsCarrierBase(){
   union(){
     difference(){
-      translate([motorSpacingX/2,motorSpacingY/2,electricsCarrierThickness/2]){
+      translate([motorSpacing/2,motorSpacing/2,electricsCarrierThickness/2]){
         cube(center=true,[electricsCarrierLength,electricsCarrierWidth,electricsCarrierThickness]);
       }
-      translate([motorSpacingX/2,motorSpacingY/2,electricsCarrierThickness/2+2.5]){
+      translate([motorSpacing/2,motorSpacing/2,electricsCarrierThickness/2+2.5]){
         cube(center=true,[electricsCarrierLength-6,electricsCarrierWidth-6,electricsCarrierThickness+2]);
       }
       difference(){
         // honeycomb mesh
-        translate([motorSpacingX/2,motorSpacingY/2,0]){
+        translate([motorSpacing/2,motorSpacing/2,0]){
           union(){
             translate([0,0,0]){
               for(x=[-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60]){
@@ -270,18 +311,28 @@ module electricsCarrierBase(){
           }
         }
         difference(){
-          translate([motorSpacingX/2,motorSpacingY/2,electricsCarrierThickness/2]){
+          translate([motorSpacing/2,motorSpacing/2,electricsCarrierThickness/2]){
             cube(center=true,[electricsCarrierLength,electricsCarrierWidth,electricsCarrierThickness]);
           }
-          translate([motorSpacingX/2,motorSpacingY/2,electricsCarrierThickness/2-2]){
+          translate([motorSpacing/2,motorSpacing/2,electricsCarrierThickness/2-2]){
             cube(center=true,[electricsCarrierLength-6,electricsCarrierWidth-6,electricsCarrierThickness+2]);
           }
         }
       }
-      for(x=[(.5*motorSpacingX)-(electricsCarrierLength/2)+2,(.5*motorSpacingX)+(electricsCarrierLength/2)-2]){
-        for(y=[(.5*motorSpacingY)-(electricsCarrierWidth/2)+2,(.5*motorSpacingY)+(electricsCarrierWidth/2)-2]){
+      for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
+        for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
           translate([x,y,-0.1]){
             cylinder(h=8.2,r=1.7);
+          }
+        }
+      }
+    }
+
+    translate([40,40,1.5]){ //40,40,1.5
+      for(x=[-18,-6,6,18]){
+        for(y=[-14,14]){
+          translate([x,y,0]){
+            cube(center=true,[4,6,3]);
           }
         }
       }
@@ -289,15 +340,15 @@ module electricsCarrierBase(){
   }
   // posts and holes for M3 fasteners to connect lower base frame to upper frame cover
   difference(){
-    for(x=[(.5*motorSpacingX)-(electricsCarrierLength/2)+2,(.5*motorSpacingX)+(electricsCarrierLength/2)-2]){
-      for(y=[(.5*motorSpacingY)-(electricsCarrierWidth/2)+2,(.5*motorSpacingY)+(electricsCarrierWidth/2)-2]){
+    for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
+      for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
         translate([x,y,0]){
           cylinder(h=3,r=4);
         }
       }
     }
-    for(x=[(.5*motorSpacingX)-(electricsCarrierLength/2)+2,(.5*motorSpacingX)+(electricsCarrierLength/2)-2]){
-      for(y=[(.5*motorSpacingY)-(electricsCarrierWidth/2)+2,(.5*motorSpacingY)+(electricsCarrierWidth/2)-2]){
+    for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
+      for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
         translate([x,y,-0.1]){
           cylinder(h=3.2,r=1.7);
         }
@@ -308,7 +359,7 @@ module electricsCarrierBase(){
 
 }
 module electricsCarrierUpper(){
-  translate([0,motorSpacingX,16.1]){
+  translate([0,motorSpacing,16.1]){
     rotate([180,0,0]){
       electricsCarrierBase();
     }
@@ -317,13 +368,13 @@ module electricsCarrierUpper(){
 module motorHousingsTri(){
   difference(){
     for(x=[0]){
-      for(y=[0,motorSpacingY]){
+      for(y=[0,motorSpacing]){
         difference(){
           union(){
             translate([x,y,0]){
               cylinder(h=20.1,r=(motorDiameter/2+1.5));
             }
-            translate([motorSpacingY*1.25,motorSpacingY/2,0]){
+            translate([motorSpacing*1.25,motorSpacing/2,0]){
               cylinder(h=20.1,r=(motorDiameter/2+1.5));
             }
           }
@@ -331,7 +382,7 @@ module motorHousingsTri(){
             translate([x,y,-0.1]){
               cylinder(h=20.3,r=(motorDiameter/2));
             }
-            translate([motorSpacingY*1.25,motorSpacingY/2,-0.1]){
+            translate([motorSpacing*1.25,motorSpacing/2,-0.1]){
               cylinder(h=20.3,r=(motorDiameter/2));
             }
           }
@@ -339,7 +390,7 @@ module motorHousingsTri(){
       }
     }
     difference(){
-      translate([motorSpacingX/2,motorSpacingY/2,0]){
+      translate([motorSpacing/2,motorSpacing/2,0]){
         for(r=[0,45,135]){
           rotate([0,0,r]){
             cube(center=true,[160,3,50]);
@@ -347,15 +398,15 @@ module motorHousingsTri(){
         }
       }
       translate([0,0,-0.2]){
-        cube([motorSpacingX*1.25,motorSpacingY,20.3]);
+        cube([motorSpacing*1.25,motorSpacing,20.3]);
       }
     }
   }
 }
 module motorHousingsQuad(){
   difference(){
-    for(x=[0,motorSpacingX]){
-      for(y=[0,motorSpacingY]){
+    for(x=[0,motorSpacing]){
+      for(y=[0,motorSpacing]){
         difference(){
           union(){
             translate([x,y,0]){
@@ -376,7 +427,7 @@ module motorHousingsQuad(){
         }
       }
     }
-    translate([motorSpacingX/2,motorSpacingY/2,0]){
+    translate([motorSpacing/2,motorSpacing/2,0]){
       for(r=[45,135]){
         rotate([0,0,r]){
           cube(center=true,[115,3,50]);
