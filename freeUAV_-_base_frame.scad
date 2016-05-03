@@ -26,37 +26,31 @@ $fn=200; // 200 default (smoother curves)
 // Default values in comments--these should work properly.
 motorDiameter=8.5;                  // 7.5 default
 motorSpacing=80;                   // 80 default
-electricsCarrierLength=50;          // 50 default
-electricsCarrierWidth=26;           // 34.5 default
+electricsCarrierLength=42;          // 50 default
+electricsCarrierWidth=25.5;           // 34.5 default
 electricsCarrierThickness=3;        // 3 default
 frameThickness=3;                   // 3 default
 frameWidth=4.5;                       // 3 default
 
 // Which paradigm to generate and with/without upper panel
 toBeGenerated="quad";               // quad default
-loadElectricsCarrierUpper="false";   // false default
 
 if(toBeGenerated=="quad"){
   motorHousingsQuad();
   motorArmsQuadNew();
   electricsCarrierBase();
-  microSciskyCarrier();
 }
 if(toBeGenerated=="tri"){
   motorHousingsTri();
   motorArmsTri();
   electricsCarrierBase();
 }
-if(loadElectricsCarrierUpper=="true"){
-  electricsCarrierUpper();
-}
-
 
 module motorArmsQuadNew(){
   difference(){
     union(){ // Full circles for arms
-      for(x=[-40,120]){
-        for(y=[40]){
+      for(x=[-motorSpacing/2,1.5*motorSpacing]){
+        for(y=[.5*motorSpacing]){
           translate([x,y,frameThickness/2]){
             difference(){
               cylinder(center=true,h=frameThickness,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter));
@@ -65,8 +59,8 @@ module motorArmsQuadNew(){
           }
         }
       }
-      for(x=[40]){
-        for(y=[-40,120]){
+      for(x=[.5*motorSpacing]){
+        for(y=[-motorSpacing/2,1.5*motorSpacing]){
           translate([x,y,frameThickness/2]){
             difference(){
               cylinder(center=true,h=frameThickness,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter));
@@ -99,7 +93,7 @@ module microSciskyCarrier(){ // Micro Scisky dimensions (x,y,z): (33.5,20,6)
       }
       union(){
         translate([2,0,-.5]){
-          cube(center=true,[35.6,20,2]);
+          cube(center=true,[35.6,21,2]);
         }
         translate([0,0,-2.5]){
           cube(center=true,[37.7,19,8.2]);
@@ -327,9 +321,9 @@ module electricsCarrierBase(){
         }
       }
     }
-
-    translate([40,40,1.5]){ //40,40,1.5
-      for(x=[-18,-6,6,18]){
+    // protruding tabs for rubber bands (battery strap in particular)
+    translate([40,40,1.5]){ // 40,40,1.5
+      for(x=[-7,7]){ // for 4 tabs use [-15,-5,5,15]
         for(y=[-14,14]){
           translate([x,y,0]){
             cube(center=true,[4,6,3]);
@@ -350,7 +344,7 @@ module electricsCarrierBase(){
     for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
       for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
         translate([x,y,-0.1]){
-          cylinder(h=3.2,r=1.7);
+          cylinder(h=3.2,r=1.7); // should be r=1.7 for a nice fit with M3 screws
         }
       }
     }
