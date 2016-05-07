@@ -24,25 +24,23 @@ $fn=200; // 200 default (smoother curves)
 // Dimensional settings (all measurements in mm)
 // WARNING: Some of these scale, some don't (this is a WIP).
 // Default values in comments--these should work properly.
-motorDiameter=8.5;                  // 7.5 default
+motorDiameter=8.5;                 // 7.5 default
 motorSpacing=80;                   // 80 default
-electricsCarrierLength=42;          // 50 default
-electricsCarrierWidth=25.5;           // 34.5 default
-electricsCarrierThickness=3;        // 3 default
-frameThickness=3;                   // 3 default
-frameWidth=4.5;                       // 3 default
+electricsCarrierLength=42;         // 50 default
+electricsCarrierWidth=25.5;        // 34.5 default
+electricsCarrierThickness=3;       // 3 default
+frameThickness=3;                  // 3 default
+frameWidth=4.5;                    // 3 default
 
 // Which paradigm to generate and with/without upper panel
-toBeGenerated="quad";               // quad default
+renderFrame="true";
+renderCarrier="true";
 
-if(toBeGenerated=="quad"){
+if(renderFrame=="true"){
   motorHousingsQuad();
   motorArmsQuadNew();
-  electricsCarrierBase();
 }
-if(toBeGenerated=="tri"){
-  motorHousingsTri();
-  motorArmsTri();
+if(renderCarrier=="true"){
   electricsCarrierBase();
 }
 
@@ -111,55 +109,6 @@ module naze32Carrier(){
         }
         translate([x,y,-0.1]){
           cylinder(h=3.2,r=1.7);
-        }
-      }
-    }
-  }
-}
-module motorArmsTri(){
-  difference(){
-    union(){
-      // front arms
-      difference(){
-        translate([28,motorSpacing/2,1.5]){
-          for(r=[180-54.5,180+54.5]){
-            rotate([0,0,r]){
-              cube(center=true,[92,4,3]);
-            }
-          }
-        }
-
-        translate([30,0,electricsCarrierThickness/2-2]){
-          cube([32,100,electricsCarrierThickness+4.1]);
-        }
-      }
-      // rear arm
-      translate([75,motorSpacing/2,1.5]){
-        cube(center=true,[40,4,3]);
-      }
-      // reinforcing circles
-      scale([1.1,1,1]){
-        difference(){
-          translate([35,40,0]){
-            cylinder(h=3,r=35);
-          }
-          translate([35,40,-0.1]){
-            cylinder(h=3.2,r=32.5);
-          }
-        }
-      }
-    }
-    // remove honeycomb inset excess of arms
-    union(){
-      // honeycomb inset
-      translate([motorSpacing/2,motorSpacing/2,electricsCarrierThickness/2-2]){
-        cube(center=true,[electricsCarrierLength-4,electricsCarrierWidth-4,electricsCarrierThickness+4.1]);
-      }
-      for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
-        for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
-          translate([x,y,-0.1]){
-            cylinder(h=3.2,r=1.7);
-          }
         }
       }
     }
@@ -356,44 +305,6 @@ module electricsCarrierUpper(){
   translate([0,motorSpacing,16.1]){
     rotate([180,0,0]){
       electricsCarrierBase();
-    }
-  }
-}
-module motorHousingsTri(){
-  difference(){
-    for(x=[0]){
-      for(y=[0,motorSpacing]){
-        difference(){
-          union(){
-            translate([x,y,0]){
-              cylinder(h=20.1,r=(motorDiameter/2+1.5));
-            }
-            translate([motorSpacing*1.25,motorSpacing/2,0]){
-              cylinder(h=20.1,r=(motorDiameter/2+1.5));
-            }
-          }
-          union(){
-            translate([x,y,-0.1]){
-              cylinder(h=20.3,r=(motorDiameter/2));
-            }
-            translate([motorSpacing*1.25,motorSpacing/2,-0.1]){
-              cylinder(h=20.3,r=(motorDiameter/2));
-            }
-          }
-        }
-      }
-    }
-    difference(){
-      translate([motorSpacing/2,motorSpacing/2,0]){
-        for(r=[0,45,135]){
-          rotate([0,0,r]){
-            cube(center=true,[160,3,50]);
-          }
-        }
-      }
-      translate([0,0,-0.2]){
-        cube([motorSpacing*1.25,motorSpacing,20.3]);
-      }
     }
   }
 }
