@@ -32,7 +32,7 @@ electricsCarrierThickness=3;       // 3 default
 frameThickness=3;                  // 3 default
 frameWidth=4.5;                    // 3 default
 
-// Which paradigm to generate and with/without upper panel
+// Which pieces to generate (both "true" for default)
 renderFrame="true";
 renderCarrier="true";
 
@@ -268,6 +268,10 @@ module electricsCarrierBase(){
             cylinder(h=8.2,r=1.7);
           }
         }
+      }
+      // cutout for micro-USB connector at rear of FC
+      translate([motorSpacing/2+electricsCarrierLength/2,motorSpacing/2,electricsCarrierThickness]){
+        cube(center=true,[electricsCarrierLength+.02,12,electricsCarrierThickness]);
       }
     }
     // protruding tabs for rubber bands (battery strap in particular)
