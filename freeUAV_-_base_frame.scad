@@ -25,7 +25,7 @@ $fn=200; // 200 default (smoother curves)
 // WARNING: Some of these scale, some don't (this is a WIP).
 // Default values in comments--these should work properly.
 motorDiameter=8.5;                 // 7.5 default
-motorSpacing=80;                   // 80 default
+motorSpacing=88;                   // 80 default; 88 is 125-class spacing; 177 is 250-class spacing
 electricsCarrierLength=42;         // 50 default
 electricsCarrierWidth=25.5;        // 34.5 default
 electricsCarrierThickness=3;       // 3 default
@@ -38,13 +38,13 @@ renderCarrier="true";
 
 if(renderFrame=="true"){
   motorHousingsQuad();
-  motorArmsQuadNew();
+  motorArmsQuad();
 }
 if(renderCarrier=="true"){
   electricsCarrierBase();
 }
 
-module motorArmsQuadNew(){
+module motorArmsQuad(){
   difference(){
     union(){ // Full circles for arms
       for(x=[-motorSpacing/2,1.5*motorSpacing]){
@@ -114,112 +114,6 @@ module naze32Carrier(){
     }
   }
 }
-module motorArmsQuad(){
-  difference(){
-    union(){
-      translate([40,40,0]){
-        for(r=[45,135]){
-          rotate([0,0,r]){
-            scale([3.266,1,1]){
-              difference(){
-                translate([0,0,0]){
-                  cylinder(h=3,r=20);
-                }
-                scale([1.1,.5,1]){ // 1.1,.5,1
-                  translate([0,0,-0.1]){
-                    cylinder(h=3.2,r=17);
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    union(){
-      // honeycomb inset
-      translate([motorSpacing/2,motorSpacing/2,electricsCarrierThickness/2-2]){
-        cube(center=true,[electricsCarrierLength-4,electricsCarrierWidth-4,electricsCarrierThickness+4.1]);
-      }
-      for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
-        for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
-          translate([x,y,-0.1]){
-            cylinder(h=3.2,r=1.7);
-          }
-        }
-      }
-      // motor openings
-      for(x=[0,motorSpacing]){
-        for(y=[0,motorSpacing]){
-          translate([x,y,-0.1]){
-            cylinder(h=20.2,r=(motorDiameter/2));
-          }
-        }
-      }
-    }
-  }
-}
-module motorArmsQuadOriginal(){
-  difference(){
-    union(){
-      difference(){
-        union(){
-        // front arms
-        translate([28,motorSpacing/2,1.5]){
-            for(r=[180-54.5,180+54.5]){
-              rotate([0,0,r]){
-                cube(center=true,[92,4,3]);
-              }
-            }
-          }
-          // rear arms
-          translate([52,motorSpacing/2,1.5]){
-            for(r=[180-54.5,180+54.5]){
-              rotate([0,0,r]){
-                cube(center=true,[92,4,3]);
-              }
-            }
-          }
-        }
-        translate([20,0,electricsCarrierThickness/2-2]){
-          cube([40,100,electricsCarrierThickness+4.1]);
-        }
-        for(x=[0,80]){
-          for(y=[0,80]){
-            translate([x,y,-0.2]){
-              cylinder(h=20.3,r=(motorDiameter/2));
-            }
-          }
-        }
-      }
-      // reinforcing circles
-      scale([1,1,1]){
-        difference(){
-          translate([40,40,0]){
-            cylinder(h=3,r=35);
-          }
-          translate([40,40,-0.1]){
-            cylinder(h=3.2,r=32.5);
-          }
-        }
-      }
-    }
-    // remove honeycomb inset excess of arms
-    union(){
-      // honeycomb inset
-      translate([motorSpacing/2,motorSpacing/2,electricsCarrierThickness/2-2]){
-        cube(center=true,[electricsCarrierLength-4,electricsCarrierWidth-4,electricsCarrierThickness+4.1]);
-      }
-      for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
-        for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
-          translate([x,y,-0.1]){
-            cylinder(h=3.2,r=1.7);
-          }
-        }
-      }
-    }
-  }
-}
 module electricsCarrierBase(){
   union(){
     difference(){
@@ -275,7 +169,7 @@ module electricsCarrierBase(){
       }
     }
     // protruding tabs for rubber bands (battery strap in particular)
-    translate([40,40,1.5]){ // 40,40,1.5
+    translate([motorSpacing/2,motorSpacing/2,1.5]){ // 40,40,1.5
       for(x=[-7,7]){ // for 4 tabs use [-15,-5,5,15]
         for(y=[-14,14]){
           translate([x,y,0]){
@@ -339,7 +233,7 @@ module motorHousingsQuad(){
     translate([motorSpacing/2,motorSpacing/2,0]){
       for(r=[45,135]){
         rotate([0,0,r]){
-          cube(center=true,[115,3,50]);
+          cube(center=true,[sqrt(2*motorSpacing*motorSpacing),3,50]);
         }
       }
     }
