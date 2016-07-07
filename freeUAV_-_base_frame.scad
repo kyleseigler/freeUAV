@@ -1,5 +1,5 @@
 //=====================================//
-// freeMAV_-_base_frame.scad           //
+// freeUAV_-_base_frame.scad           //
 //=====================================//
 // Designed by Kyle Seigler and        //
 // released under the MIT license,     //
@@ -18,29 +18,30 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-// Global settings
+// General and quality settings
 $fn=200; // 200 default (smoother curves)
+yes=1; // for choosing which parts are rendered
 
 // Dimensional settings (all measurements in mm)
 // WARNING: Some of these scale, some don't (this is a WIP).
 // Default values in comments--these should work properly.
-motorDiameter=8.5;                 // 7.5 default
-motorSpacing=88;                   // 80 default; 88 is 125-class spacing; 177 is 250-class spacing
-electricsCarrierLength=42;         // 50 default
-electricsCarrierWidth=25.5;        // 34.5 default
+motorDiameter=8.5;                 // 8.5 default
+motorSpacing=88;                   // 80 default; 88 is 125-class spacing; 177 is 250-class spacing, etc.
+electricsCarrierLength=42;         // 42 default for Micro Scisky
+electricsCarrierWidth=25.5;        // 25.5 default for Micro Scisky
 electricsCarrierThickness=3;       // 3 default
 frameThickness=3;                  // 3 default
-frameWidth=4.5;                    // 3 default
+frameWidth=4.5;                    // 4.5 default
 
-// Which pieces to generate (both "true" for default)
-renderFrame="true";
-renderCarrier="true";
+// Which pieces to generate (both yes for default)
+renderFrame=yes;
+renderCarrier=yes;
 
-if(renderFrame=="true"){
+if(renderFrame==1){
   motorHousingsQuad();
   motorArmsQuad();
 }
-if(renderCarrier=="true"){
+if(renderCarrier==1){
   electricsCarrierBase();
 }
 
