@@ -18,9 +18,8 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-// General and quality settings
+// Quality settings
 $fn=300; // 300 default (smoother curves)
-yes=1; // for choosing which parts are rendered
 
 // Dimensional settings (all measurements in mm)
 // WARNING: Some of these scale, some don't (this is a WIP).
@@ -33,9 +32,9 @@ electricsCarrierThickness=3;       // 3 default
 frameThickness=3;                  // 3 default
 frameWidth=4.5;                    // 4.5 default
 
-// Which pieces to generate (both yes for default)
-renderFrame=yes;
-renderCarrier=yes;
+// Which pieces to generate (1 for yes, 2 for no)
+renderFrame=1; // 1 default
+renderCarrier=1; // 1 default
 
 if(renderFrame==1){
   motorHousingsQuad();
@@ -79,37 +78,6 @@ module motorArmsQuad(){
       translate([motorSpacing/2,motorSpacing/2,frameThickness/2]){
         rotate([0,0,45]){
           cube(center=true,[1/sin(45)*motorSpacing,1/sin(45)*motorSpacing,frameThickness+.4]);
-        }
-      }
-    }
-  }
-}
-module microSciskyCarrier(){ // Micro Scisky dimensions (x,y,z): (33.5,20,6)
-  translate([39,40,6.5]){
-    difference(){
-      translate([0,0,-2.5]){
-        cube(center=true,[37.5,24,8]);
-      }
-      union(){
-        translate([2,0,-.5]){
-          cube(center=true,[35.6,21,2]);
-        }
-        translate([0,0,-2.5]){
-          cube(center=true,[37.7,19,8.2]);
-        }
-      }
-    }
-  }
-}
-module naze32Carrier(){
-  for(x=[(motorSpacing/2)-15.25,(motorSpacing/2)+15.25]){
-    for(y=[(motorSpacing/2)-15.25,(motorSpacing/2)+15.25]){
-      difference(){
-        translate([x,y,0]){
-          cylinder(h=3,r=4);
-        }
-        translate([x,y,-0.1]){
-          cylinder(h=3.2,r=1.7);
         }
       }
     }
@@ -170,14 +138,27 @@ module electricsCarrierBase(){
       }
     }
     // protruding tabs for rubber bands (battery strap in particular)
-    translate([motorSpacing/2,motorSpacing/2,1.5]){ // 40,40,1.5
-      for(x=[-7,7]){ // for 4 tabs use [-15,-5,5,15]
-        for(y=[-14,14]){
-          translate([x,y,0]){
-            cube(center=true,[4,6,3]);
+    difference(){
+      translate([motorSpacing/2,motorSpacing/2,1.5]){ // 40,40,1.5
+        for(x=[-7,7]){ // for 4 tabs use [-15,-5,5,15]
+          for(y=[-14,14]){
+            translate([x,y,0]){
+              cube(center=true,[4,6,3]);
+            }
           }
         }
       }
+      translate([motorSpacing/2,motorSpacing/2,1.5]){
+        for(x=[-7,7]){ // for 4 tabs use [-15,-5,5,15]
+          for(y=[-14,14]){
+            translate([x,y,2]){
+              rotate([0,90,0]){
+                cylinder(center=true,h=4.01,r=1.2);
+              }
+            }
+          }
+        }
+      }      
     }
   }
   // posts and holes for M3 fasteners to connect lower base frame to upper frame cover
