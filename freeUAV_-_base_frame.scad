@@ -19,7 +19,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 // General and quality settings
-$fn=200; // 200 default (smoother curves)
+$fn=300; // 300 default (smoother curves)
 yes=1; // for choosing which parts are rendered
 
 // Dimensional settings (all measurements in mm)
