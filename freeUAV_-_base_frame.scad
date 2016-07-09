@@ -26,7 +26,7 @@ yes=1; // for choosing which parts are rendered
 // WARNING: Some of these scale, some don't (this is a WIP).
 // Default values in comments--these should work properly.
 motorDiameter=8.5;                 // 8.5 default
-motorSpacing=88;                   // 80 default; 88 is 125-class spacing; 177 is 250-class spacing, etc.
+motorSpacing=80;                   // 80 default; 88 is 125-class spacing; 177 is 250-class spacing, etc.
 electricsCarrierLength=42;         // 42 default for Micro Scisky
 electricsCarrierWidth=25.5;        // 25.5 default for Micro Scisky
 electricsCarrierThickness=3;       // 3 default
