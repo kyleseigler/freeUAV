@@ -19,7 +19,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 // Quality settings
-$fn=300; // 300 default (smoother curves)
+$fn=30; // 300 default (smoother curves)
 
 // Dimensional settings (all measurements in mm)
 // WARNING: Some of these scale, some don't (this is a WIP).
@@ -35,15 +35,32 @@ frameWidth=4.5;                    // 4.5 default
 // Which pieces to generate (1 for yes, 2 for no)
 renderFrame=1; // 1 default
 renderCarrier=1; // 1 default
+renderPlate=0; // 0 default
 
-if(renderFrame==1){
-  motorHousingsQuad();
-  motorArmsQuad();
+// 2x rendered to fit on a Prusa i3 bed (couldn't squeeze more than 2 at a time)
+if(renderPlate==1){
+  for(rotation=[0,90]){
+    rotate([0,0,rotation]){
+      translate([-18,24,0]){
+        completeFrame();
+      }
+    }
+  }
 }
-if(renderCarrier==1){
-  electricsCarrierBase();
+else{
+  completeFrame();
 }
-
+  
+// Modules
+module completeFrame(){
+  if(renderFrame==1){
+    motorHousingsQuad();
+    motorArmsQuad();
+  }
+  if(renderCarrier==1){
+    electricsCarrierBase();
+  }
+}
 module motorArmsQuad(){
   difference(){
     union(){ // Full circles for arms
