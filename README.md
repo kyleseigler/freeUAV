@@ -51,3 +51,9 @@ Here are the parts are recommended with the current version of freeUAV:
 * [Walkera QR Spacewalker props](http://www.ebay.com/itm/141735493973)
 
 * [Turnigy nano-tech 300mAh Li-Po batteries](https://www.hobbyking.com/hobbyking/store/%5F%5F59257%5F%5FTurnigy%5Fnano%5Ftech%5F300mah%5F1S%5F45%5F90C%5FLipo%5FPack%5FFits%5FNine%5FEagles%5FSolo%5FPro%5F100%5FAR%5FWarehouse%5F.html)
+
+###Well then, how can I get one?###
+
+Order a frame from me, through [my Tindie store](https://www.tindie.com/stores/C_Blackstone/) (if you want to support the designer) or print it out yourself! The code is [here on my github](https://github.com/kyleseigler/freeUAV). I highly recommend using the most rigid plastic you can find. PLA actually performs well due to its rigidity, it just breaks easily in crashes. I've also flown several test frames printed with ColorFabb's nGen engineering plastic. It's a wonderful material, but not for this; it flexes too much for controlled flight, and it tends to shatter during hard crashes.
+
+I'm only offering this frame in XT-CF20 because it's the best I've found so far.
