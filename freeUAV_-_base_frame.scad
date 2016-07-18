@@ -19,7 +19,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 // Quality settings
-$fn=30; // 300 default (smoother curves)
+$fn=300; // 300 default (smoother curves)
 
 // Dimensional settings (all measurements in mm)
 // WARNING: Some of these scale, some don't (this is a WIP).
@@ -35,20 +35,38 @@ frameWidth=4.5;                    // 4.5 default
 // Which pieces to generate (1 for yes, 2 for no)
 renderFrame=1; // 1 default
 renderCarrier=1; // 1 default
-renderPlate=0; // 0 default
+renderThreeQuartersPlate=0; // 0 default
+renderFullPlate=0; // 0 default
 
-// 2x rendered to fit on a Prusa i3 bed (couldn't squeeze more than 2 at a time)
-if(renderPlate==1){
-  for(rotation=[0,90]){
-    rotate([0,0,rotation]){
-      translate([-18,24,0]){
-        completeFrame();
-      }
-    }
+// 4x rendered to fit on a Prusa i3 bed (needs to be tested)
+if(renderFullPlate==1){
+  translate([0,0,0]){
+    completeFrame();
+  }
+  translate([-(motorSpacing+2.2*motorDiameter),0,0]){
+    completeFrame();
+  }
+  translate([0,-(motorSpacing+motorDiameter*2.2),0]){
+    completeFrame();
+  }
+  translate([-(motorSpacing+2.2*motorDiameter),-(motorSpacing+motorDiameter*2.2),0]){
+    completeFrame();
   }
 }
-else{
-  completeFrame();
+
+// 3x rendered to fit on a Prusa i3 bed (fits on Kyle's RepRap if skirt is shrunk slightly)
+if(renderThreeQuartersPlate==1){
+  rotate([0,0,90]){
+    translate([0,0,0]){
+      completeFrame();
+    }
+    translate([-(motorSpacing+motorDiameter/2.5),-(motorSpacing/2+motorDiameter*1.1),0]){
+      completeFrame();
+    }
+    translate([0,-(motorSpacing+motorDiameter*2.2),0]){
+      completeFrame();
+    }
+  }
 }
   
 // Modules
