@@ -36,7 +36,7 @@ frameWidth=4.5;                    // 4.5 default
 motorSpacing=80;                   // 80 default; 88 is 125-class spacing; 177 is 250-class spacing, etc.
 
 // Motor carrier parameters
-motorType=0;
+motorType=1;
 /* Supported motors
  * 0 for friction-fit brushed (change motorDiameter variable below to set motor casing size)
  * 1 for brushless (RCX H1105)
@@ -49,7 +49,7 @@ motorDiameter=8.5;                  // 8.5 default
 brushlessMotorMountHoleSpacing=9;            // 9mm spacing per datasheet
 brushlessMotorMountHoleDiameter=2;           // 2mm hole per datasheet (TODO: find out oversizing amount required)
 brushlessMotorDiameter=14;                   // 14mm per datasheet
-brushlessMotorPlateThickness=4;              // 4 default
+brushlessMotorPlateThickness=3;              // 4 default
 
 // Which pieces to generate (1 for yes, 2 for no)
 renderFrame=1; // 1 default
@@ -111,7 +111,7 @@ module motorHousingsBrushless(){
         difference(){
           cylinder(h=brushlessMotorPlateThickness,r=(motorDiameter/2+4.5));
           // mouting holes for brushless motor
-          rotate([0,0,0]){
+          rotate([0,0,45]){
             for(x=[-brushlessMotorMountHoleSpacing/2,brushlessMotorMountHoleSpacing/2]){
               for(y=[-brushlessMotorMountHoleSpacing/2,brushlessMotorMountHoleSpacing/2]){
                 translate([x,y,-0.1]){
@@ -119,6 +119,9 @@ module motorHousingsBrushless(){
                 }
               }
             }
+          }
+          translate([0,0,-0.1]){
+            cylinder(h=brushlessMotorPlateThickness+0.2,r=2.5);
           }
         }
       }
@@ -200,7 +203,7 @@ module motorArmsQuad(){
       for(x=[0,motorSpacing]){
         for(y=[0,motorSpacing]){
           translate([x,y,0]){
-            rotate([0,0,0]){
+            rotate([0,0,45]){
               for(x=[-brushlessMotorMountHoleSpacing/2,brushlessMotorMountHoleSpacing/2]){
                 for(y=[-brushlessMotorMountHoleSpacing/2,brushlessMotorMountHoleSpacing/2]){
                   translate([x,y,-0.1]){
