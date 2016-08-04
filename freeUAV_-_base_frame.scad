@@ -19,7 +19,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 // Quality settings
-$fn=300; // 300 default (smoother curves)
+$fn=30; // 300 default (smoother curves)
 
 // Dimensional settings (all measurements in mm)
 // WARNING: Some of these scale, some don't (this is a WIP).
@@ -37,6 +37,10 @@ renderFrame=1; // 1 default
 renderCarrier=1; // 1 default
 renderThreeQuartersPlate=0; // 0 default
 renderFullPlate=0; // 0 default
+
+if(renderFullPlate==0){
+  completeFrame();
+}
 
 // 4x rendered to fit on a Prusa i3 bed (needs to be tested)
 if(renderFullPlate==1){
