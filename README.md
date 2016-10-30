@@ -56,6 +56,6 @@ I control this with a Taranis X9D Plus, using a [3d-printed Spektrum module case
 
 ###Well then, how can I get one?###
 
-You can order a frame from me, through [my Tindie store](https://www.tindie.com/stores/C_Blackstone/) (if you want to support the designer) or print it out yourself! The code is [here on my github](https://github.com/kyleseigler/freeUAV)g. I highly recommend using the most rigid plastic you can find. PLA actually performs well due to its rigidity, it just breaks easily in crashes. I've also flown several test frames printed with ColorFabb's nGen engineering plastic. It's a wonderful material, but not for this; it flexes too much for controlled flight, and it tends to shatter during hard crashes.
+You can order a frame from me, through [my Tindie store](https://www.tindie.com/stores/C_Blackstone/) (if you want to support the designer) or print it out yourself! The code is [here on my github](https://github.com/kyleseigler/freeUAV). I highly recommend using the most rigid plastic you can find. PLA actually performs well due to its rigidity, it just breaks easily in crashes. I've also flown several test frames printed with ColorFabb's nGen engineering plastic. It's a wonderful material, but not for this; it flexes too much for controlled flight, and it tends to shatter during hard crashes.
 
 I'm only offering this frame in XT-CF20 because it's the best I've found so far--but if you never crash, PLA would also be a good choice!
