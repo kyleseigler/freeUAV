@@ -52,7 +52,7 @@ brushlessMotorDiameter=14;                   // 14mm per datasheet
 brushlessMotorPlateThickness=3;              // 4 default
 
 // Which pieces to generate (1 for yes, 2 for no)
-renderFrame=1; // 1 default
+renderFrame=0; // 1 default
 renderCarrier=1; // 1 default
 renderThreeQuartersPlate=0; // 0 default
 renderFullPlate=0; // 0 default
@@ -296,25 +296,43 @@ module electricsCarrierBase(){
       }      
     }
   }
-  // posts and holes for M3 fasteners to connect lower base frame to upper frame cover
+  // posts and holes for M3 fasteners to connect lower base frame to upper frame (for additional modules such as FPV, OSD, etc)
   difference(){
-    for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
-      for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
-        translate([x,y,0]){
-          cylinder(h=3,r=4);
+    union(){
+      for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
+        for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
+          translate([x,y,0]){
+            cylinder(h=3,r=4);
+          }
         }
       }
-    }
-    for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
-      for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
-        translate([x,y,-0.1]){
-          cylinder(h=3.2,r=1.7); // should be r=1.7 for a nice fit with M3 screws
+      difference(){ // rubberband loops for connecting motor arms and electrics carrier
+        for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)-1,(.5*motorSpacing)+(electricsCarrierLength/2)+1]){
+          for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)-1,(.5*motorSpacing)+(electricsCarrierWidth/2)+1]){
+            translate([x,y,0]){
+              cylinder(h=3,r=3); // slightly smaller as these are for rubber bands
+            }
+          }
         }
+        for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)-1,(.5*motorSpacing)+(electricsCarrierLength/2)+1]){
+          for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)-1,(.5*motorSpacing)+(electricsCarrierWidth/2)+1]){
+            translate([x,y,-0.1]){
+              cylinder(h=3.2,r=1.5); // slightly smaller as these are for rubber bands
+            }
+          }
+        }      
       }
     }
-
+    union(){
+      for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
+        for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
+          translate([x,y,-0.1]){
+            cylinder(h=3.2,r=1.7); // should be r=1.7 for a nice fit with M3 screws
+          }
+        }
+      }      
+    }
   }
-
 }
 module electricsCarrierUpper(){
   translate([0,motorSpacing,16.1]){
