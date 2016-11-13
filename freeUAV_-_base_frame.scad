@@ -19,7 +19,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 // Quality settings
-$fn=30; // 300 default (smoother curves)
+$fn=300; // 300 default (smoother curves)
 
 // Dimensional settings (all measurements in mm)
 // WARNING: Some of these scale, some don't (this is a WIP).
@@ -36,7 +36,7 @@ frameWidth=4.5;                    // 4.5 default
 motorSpacing=80;                   // 80 default; 88 is 125-class spacing; 177 is 250-class spacing, etc.
 
 // Motor carrier parameters
-motorType=1;
+motorType=0;
 /* Supported motors
  * 0 for friction-fit brushed (change motorDiameter variable below to set motor casing size)
  * 1 for brushless (RCX H1105)
@@ -52,7 +52,7 @@ brushlessMotorDiameter=14;                   // 14mm per datasheet
 brushlessMotorPlateThickness=3;              // 4 default
 
 // Which pieces to generate (1 for yes, 2 for no)
-renderFrame=0; // 1 default
+renderFrame=1; // 1 default
 renderCarrier=1; // 1 default
 renderThreeQuartersPlate=0; // 0 default
 renderFullPlate=0; // 0 default
@@ -235,7 +235,7 @@ module electricsCarrierBase(){
               for(x=[-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60]){
                 for(y=[-48,-42,-36,-30,-24,-18,-12,-6,0,6,12,18,24,30,36,42,48]){
                   translate([x,y,-0.1]){
-                    cylinder($fn=6,h=electricsCarrierThickness+0.2,r=2.8);
+                    cylinder($fn=6,h=electricsCarrierThickness+0.2,r=2.9);
                   }
                 }
               }
@@ -244,7 +244,7 @@ module electricsCarrierBase(){
               for(x=[-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60]){
                 for(y=[-48,-42,-36,-30,-24,-18,-12,-6,0,6,12,18,24,30,36,42,48]){
                   translate([x,y,-0.1]){
-                    cylinder($fn=6,h=electricsCarrierThickness+0.2,r=2.8);
+                    cylinder($fn=6,h=electricsCarrierThickness+0.2,r=2.9);
                   }
                 }
               }
