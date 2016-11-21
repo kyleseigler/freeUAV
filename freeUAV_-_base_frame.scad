@@ -29,6 +29,7 @@ $fn=300; // 300 default (smoother curves)
 electricsCarrierLength=42;         // 42 default for Micro Scisky
 electricsCarrierWidth=25.5;        // 25.5 default for Micro Scisky
 electricsCarrierThickness=3;       // 3 default
+electricsCarrierUpperLift=10;      // 10 default
 
 // Outer frame parameters
 frameThickness=3;                  // 3 default
@@ -52,8 +53,9 @@ brushlessMotorDiameter=14;                   // 14mm per datasheet
 brushlessMotorPlateThickness=3;              // 4 default
 
 // Which pieces to generate (1 for yes, 2 for no)
-renderFrame=1; // 1 default
-renderCarrier=1; // 1 default
+renderFrame=0; // 1 default
+renderCarrier=0; // 1 default
+renderCarrierUpper=1; // 0 default
 renderThreeQuartersPlate=0; // 0 default
 renderFullPlate=0; // 0 default
 
@@ -98,6 +100,9 @@ module completeFrame(){
   }
   if(renderCarrier==1){
     electricsCarrierBase();
+  }
+  if(renderCarrierUpper==1){
+    electricsCarrierUpper();
   }
 }
 module motorHousings(){
@@ -335,9 +340,66 @@ module electricsCarrierBase(){
   }
 }
 module electricsCarrierUpper(){
-  translate([0,motorSpacing,16.1]){
-    rotate([180,0,0]){
-      electricsCarrierBase();
+  translate([0,0,electricsCarrierUpperLift]){
+    rotate([0,0,0]){
+      union(){
+        difference(){
+          translate([motorSpacing/2,motorSpacing/2,electricsCarrierThickness/2]){
+            cube(center=true,[electricsCarrierLength,electricsCarrierWidth,electricsCarrierThickness]);
+          }
+          translate([motorSpacing/2,motorSpacing/2,electricsCarrierThickness/2]){
+            cube(center=true,[electricsCarrierLength-6,electricsCarrierWidth-6,electricsCarrierThickness+2]);
+          }
+          for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
+            for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
+              translate([x,y,-0.1]){
+                cylinder(h=8.2,r=1.7);
+              }
+            }
+          }
+        }
+        difference(){ // mounting opening for FPV camera
+          translate([motorSpacing/2-electricsCarrierLength/5,motorSpacing/2,5]){
+            cube(center=true,[3,electricsCarrierWidth,10]);
+          }
+          for(yOffset=[-electricsCarrierWidth/2,electricsCarrierWidth/2]){
+            translate([motorSpacing/2-electricsCarrierLength/5,motorSpacing/2+yOffset,10]){
+              rotate([0,90,0]){
+                cylinder(center=true,h=3.1,r=7);
+              }
+            }
+          }
+          translate([motorSpacing/2-electricsCarrierLength/5,motorSpacing/2,10]){
+            rotate([0,90,0]){
+              cylinder(center=true,h=3.1,r=4);
+            }
+          }
+        }
+      }
+      
+      
+      
+      // posts and holes for M3 fasteners to connect lower base frame to upper frame (for additional modules such as FPV, OSD, etc)
+      difference(){
+        union(){
+          for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
+            for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
+              translate([x,y,0]){
+                cylinder(h=3,r=4);
+              }
+            }
+          }
+        }
+        union(){
+          for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
+            for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
+              translate([x,y,-0.1]){
+                cylinder(h=3.2,r=1.7); // should be r=1.7 for a nice fit with M3 screws
+              }
+            }
+          }      
+        }
+      }
     }
   }
 }
