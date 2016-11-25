@@ -30,12 +30,12 @@ electricsCarrierLength=48;              // 42 default for Micro Scisky, 43 for s
 electricsCarrierWidth=25.5;             // 25.5 default for Micro Scisky
 electricsCarrierThickness=3;            // 3 default
 electricsCarrierUpperLift=10;           // 10 default
-electricsCarrierFrameOuterWidth=1.8;    // 3 default, 1.8 for lightweight version
-electricsCarrierM3ScrewHolePadding=1.5; // 2.3 default, 1.5 for lightweight version
+electricsCarrierFrameOuterWidth=3;    // 3 default, 1.8 for lightweight version
+electricsCarrierM3ScrewHolePadding=2; // 2.3 default, 1.5 for lightweight version
 
 // Outer frame parameters
 frameThickness=3;                  // 3 default
-frameWidth=3;                      // 4.5 default, 3 for lightweight version
+frameWidth=4;                      // 4.5 default, 3 for lightweight version
 motorSpacing=62;                   // 80 default; 
 /* 56 is 80-class
  * 62 is 87-class
@@ -190,7 +190,7 @@ module motorArmsQuad(){
           }
         }
       }
-      /*
+      
       // left/right arms (temporarily omitted to save weight)
       for(x=[.5*motorSpacing]){
         for(y=[-motorSpacing/2,1.5*motorSpacing]){
@@ -202,7 +202,7 @@ module motorArmsQuad(){
           }
         }
       }
-      */
+      
     }
     difference(){ // Cube to remove excess of arms
       translate([motorSpacing/2,motorSpacing/2,frameThickness/2]){
@@ -304,6 +304,8 @@ module electricsCarrierBase(){
           }
         }
       }
+      // small cutouts to help hold onto the rubber bands
+      /*
       translate([motorSpacing/2,motorSpacing/2,1.5]){
         for(x=[-7,7]){ // for 4 tabs use [-15,-5,5,15]
           for(y=[-14,14]){
@@ -314,17 +316,19 @@ module electricsCarrierBase(){
             }
           }
         }
-      }      
+      }
+      */
     }
   }
   // fpv camera mount
   union(){
-    translate([3,motorSpacing/2,15]){
+    difference(){
+      translate([4,motorSpacing/2,11]){
         difference(){
           translate([0,0,-4]){
-            cube(center=true,[5,electricsCarrierWidth,22]);
+            cube(center=true,[5,electricsCarrierWidth,15]);
           }
-          translate([0,0,5]){
+          translate([0,0,3]){
             rotate([0,90,0]){
               cylinder(center=true,h=5.1,r=4);
             }
@@ -343,6 +347,10 @@ module electricsCarrierBase(){
           }
         }
       }
+      translate([3,motorSpacing/2,-5]){
+        cube(center=true,[motorSpacing*2,motorSpacing*2,10]);
+      }
+    }
     /*
     difference(){
       translate([-3,motorSpacing/2,electricsCarrierThickness/2]){
