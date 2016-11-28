@@ -1,5 +1,7 @@
 #**freeUAV** - a 3d-printable micro brushed quadcopter platform#
 
+**Soon, freeUAV is changing its name to Trigona minima, after the Earth's smallest bee.**
+
 freeUAV is an open-source micro quadcopter platform, 3d-printed in carbon-fiber reinforced engineering plastic.
 
 Written in OpenSCAD, it is designed to be parametric, durable, and affordable.
