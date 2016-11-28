@@ -30,16 +30,21 @@ electricsCarrierLength=48;              // 42 default for Micro Scisky, 43 for s
 electricsCarrierWidth=25.5;             // 25.5 default for Micro Scisky
 electricsCarrierThickness=3;            // 3 default
 electricsCarrierUpperLift=10;           // 10 default
-electricsCarrierFrameOuterWidth=3;    // 3 default, 1.8 for lightweight version
-electricsCarrierM3ScrewHolePadding=2; // 2.3 default, 1.5 for lightweight version
+electricsCarrierFrameOuterWidth=2;      // 3 default, 1.8 for lightweight version
+electricsCarrierM3ScrewHolePadding=1.2; // 2.3 default, 1.5 for lightweight version
+batteryMountType=1;                     // 0 for rubber band tabs, 1 for velcro battery strap
+batteryStrapWidth=20;                   // 20 default
+batteryStrapOpening=3;                  // 3 default
+batteryStrapThickness=2;              // 1.5 default
 
 // Outer frame parameters
 frameThickness=3;                  // 3 default
-frameWidth=4;                      // 4.5 default, 3 for lightweight version
+frameWidth=3;                      // 4.5 default, 3 for lightweight version
 motorSpacing=62;                   // 80 default; 
 /* 56 is 80-class
  * 62 is 87-class
  * 70 is 100-class
+ * 80 is 113-class
  * 88 is 125-class
  */
 
@@ -190,7 +195,7 @@ module motorArmsQuad(){
           }
         }
       }
-      
+      /*
       // left/right arms (temporarily omitted to save weight)
       for(x=[.5*motorSpacing]){
         for(y=[-motorSpacing/2,1.5*motorSpacing]){
@@ -202,7 +207,7 @@ module motorArmsQuad(){
           }
         }
       }
-      
+      */
     }
     difference(){ // Cube to remove excess of arms
       translate([motorSpacing/2,motorSpacing/2,frameThickness/2]){
@@ -293,40 +298,51 @@ module electricsCarrierBase(){
         cube(center=true,[electricsCarrierLength+.02,12,electricsCarrierThickness]);
       }
     }
-    // protruding tabs for rubber bands (battery strap in particular)
-    difference(){
-      translate([motorSpacing/2,motorSpacing/2,1.5]){ // 40,40,1.5
-        for(x=[-7,7]){ // for 4 tabs use [-15,-5,5,15]
-          for(y=[-14,14]){
-            translate([x,y,0]){
-              cube(center=true,[4,6,3]);
-            }
-          }
-        }
-      }
-      // small cutouts to help hold onto the rubber bands
-      /*
-      translate([motorSpacing/2,motorSpacing/2,1.5]){
-        for(x=[-7,7]){ // for 4 tabs use [-15,-5,5,15]
-          for(y=[-14,14]){
-            translate([x,y,2]){
-              rotate([0,90,0]){
-                cylinder(center=true,h=4.01,r=1.2);
+    // different types of battery/electrics mounting methods
+    if(batteryMountType==0){ // protruding tabs for rubber bands (battery strap in particular)
+      difference(){
+        translate([motorSpacing/2,motorSpacing/2,1.5]){ // 40,40,1.5
+          for(x=[-7,7]){ // for 4 tabs use [-15,-5,5,15]
+            for(y=[-14,14]){
+              translate([x,y,0]){
+                cube(center=true,[4,6,3]);
               }
             }
           }
         }
+        // small cutouts to help hold onto the rubber bands
+        /*
+        translate([motorSpacing/2,motorSpacing/2,1.5]){
+          for(x=[-7,7]){ // for 4 tabs use [-15,-5,5,15]
+            for(y=[-14,14]){
+              translate([x,y,2]){
+                rotate([0,90,0]){
+                  cylinder(center=true,h=4.01,r=1.2);
+                }
+              }
+            }
+          }
+        }
+        */
       }
-      */
+    }
+    if(batteryMountType==1){ // small loops for velcro battery strap
+      translate([motorSpacing/2,motorSpacing/2,1.5]){
+        difference(){
+          cube(center=true,[batteryStrapWidth+2*batteryStrapThickness,electricsCarrierWidth+2*batteryStrapOpening+2*batteryStrapThickness,3]);
+          cube(center=true,[batteryStrapWidth,electricsCarrierWidth+2*batteryStrapOpening,3.01]);
+          cube(center=true,[electricsCarrierLength,electricsCarrierWidth-0.01,3.02]);
+        }
+      }
     }
   }
   // fpv camera mount
   union(){
     difference(){
-      translate([4,motorSpacing/2,11]){
+      translate([4,motorSpacing/2,12]){
         difference(){
           translate([0,0,-4]){
-            cube(center=true,[5,electricsCarrierWidth,15]);
+            cube(center=true,[5,electricsCarrierWidth,16]);
           }
           translate([0,0,3]){
             rotate([0,90,0]){
@@ -346,9 +362,6 @@ module electricsCarrierBase(){
             }
           }
         }
-      }
-      translate([3,motorSpacing/2,-5]){
-        cube(center=true,[motorSpacing*2,motorSpacing*2,10]);
       }
     }
     /*
