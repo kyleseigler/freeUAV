@@ -33,7 +33,7 @@ electricsCarrierUpperLift=10;           // 10 default
 electricsCarrierFrameOuterWidth=2;      // 3 default, 1.8 for lightweight version
 electricsCarrierM3ScrewHolePadding=1.2; // 2.3 default, 1.5 for lightweight version
 batteryMountType=1;                     // 0 for rubber band tabs, 1 for velcro battery strap
-batteryStrapWidth=20;                   // 20 default
+batteryStrapWidth=12;                   // 20 default
 batteryStrapOpening=3;                  // 3 default
 batteryStrapThickness=2;              // 1.5 default
 
