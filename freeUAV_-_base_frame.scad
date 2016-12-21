@@ -30,16 +30,17 @@ electricsCarrierLength=48;              // 42 default for Micro Scisky, 43 for s
 electricsCarrierWidth=25.5;             // 25.5 default for Micro Scisky
 electricsCarrierThickness=3;            // 3 default
 electricsCarrierUpperLift=10;           // 10 default
-electricsCarrierFrameOuterWidth=2;      // 3 default, 1.8 for lightweight version
+electricsCarrierFrameOuterWidth=3;      // 3 default, 1.8 for lightweight version
 electricsCarrierM3ScrewHolePadding=1.2; // 2.3 default, 1.5 for lightweight version
 batteryMountType=1;                     // 0 for rubber band tabs, 1 for velcro battery strap
 batteryStrapWidth=12;                   // 20 default
 batteryStrapOpening=3;                  // 3 default
-batteryStrapThickness=2;              // 1.5 default
+batteryStrapThickness=2;                // 1.5 default
+fullMotorArms=1;                        // true default
 
 // Outer frame parameters
 frameThickness=3;                  // 3 default
-frameWidth=3;                      // 4.5 default, 3 for lightweight version
+frameWidth=4.5;                      // 4.5 default, 3 for lightweight version
 motorSpacing=62;                   // 80 default; 
 /* 56 is 80-class
  * 62 is 87-class
@@ -195,19 +196,19 @@ module motorArmsQuad(){
           }
         }
       }
-      /*
-      // left/right arms (temporarily omitted to save weight)
-      for(x=[.5*motorSpacing]){
-        for(y=[-motorSpacing/2,1.5*motorSpacing]){
-          translate([x,y,frameThickness/2]){
-            difference(){
-              cylinder(center=true,h=frameThickness,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter));
-              cylinder(center=true,h=frameThickness+.2,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter)-frameWidth);
+      if(fullMotorArms==1){
+        // left/right arms (temporarily omitted to save weight)
+        for(x=[.5*motorSpacing]){
+          for(y=[-motorSpacing/2,1.5*motorSpacing]){
+            translate([x,y,frameThickness/2]){
+              difference(){
+                cylinder(center=true,h=frameThickness,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter));
+                cylinder(center=true,h=frameThickness+.2,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter)-frameWidth);
+              }
             }
           }
         }
       }
-      */
     }
     difference(){ // Cube to remove excess of arms
       translate([motorSpacing/2,motorSpacing/2,frameThickness/2]){
