@@ -248,14 +248,14 @@ module motorArmsQuad(){
     
     // conical/tilted holes for 3mm LEDs (should illuminate corners of nylon frame for better orientation at night)
     for(rotation=[0,90,180,270]){
-      translate([motorSpacing/2,motorSpacing/2,4]){
+      translate([motorSpacing/2,motorSpacing/2,5]){
         rotate([0,0,rotation]){
           translate([-(motorSpacing+10.5)/2,-(motorSpacing+10.5)/2,0]){
             rotate([10,-10,0]){
               difference(){
-                cylinder(center=true,r1=1.9,r2=3,h=7);
-                translate([0,0,1.5]){
-                  cylinder(center=true,r=1.5,h=4.01);
+                cylinder(center=true,r1=1.9,r2=3,h=8);
+                translate([0,0,0]){
+                  cylinder(center=true,r=1.65,h=8.01);
                 }
               }
             }
