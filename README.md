@@ -17,7 +17,7 @@ This design is special for three simple reasons:
 
 **1. It flies well**
 
-Because of the rigidity of the frame and the way that the flight controller board is suspended with rubber bands, the freeUAV is both fluid and agile.
+Due to a few design traits (light weight, lower/centered flight controller, and tight motor spacing) the freeUAV is both fluid and agile.
 
 **2. It's open-source**
 
@@ -32,15 +32,15 @@ What about the tech specs?
 
 Here they are:
 
-* Printed and assembled frame weight (inner and outer frame, with six rubber bands): **10 grams**
+* Printed and assembled frame weight: **7 grams**
 
-* Fully build weight without battery: **35 grams**
+* Fully build weight without battery: **(need to re-weigh)**
 
-* Full weight including 300mAh battery: **44 grams**
+* Full weight including 300mAh battery: **(need to re-weigh)**
 
-* Size: **112mm class** (motor-to-motor diagonal distance--this can be changed easily in the OpenSCAD source file)
+* Size: **87mm class** (motor-to-motor diagonal distance--this can be changed easily in the OpenSCAD source file)
 
-* Approximate flight time with 300mAh battery: **8-12 minutes**
+* Approximate flight time with 300mAh battery: **(need to re-time)**
 
 ###What components do you fly?###
 
@@ -61,3 +61,5 @@ I control this with a Taranis X9D Plus, using a [3d-printed Spektrum module case
 You can order a frame from me, through [my Tindie store](https://www.tindie.com/stores/C_Blackstone/) (if you want to support the designer) or print it out yourself! The code is [here on my github](https://github.com/kyleseigler/freeUAV). I highly recommend using the most rigid plastic you can find. PLA actually performs well due to its rigidity, it just breaks easily in crashes. I've also flown several test frames printed with ColorFabb's nGen engineering plastic. It's a wonderful material, but not for this; it flexes too much for controlled flight, and it tends to shatter during hard crashes.
 
 I'm only offering this frame in XT-CF20 because it's the best I've found so far--but if you never crash, PLA would also be a good choice!
+
+Currently, I am testing this frame with Taulman's Nylon 645, which seems to be extremely durable (even if it's slightly flexible). I'm able to print the frame marginally thicker for rigidity and durability, but due to how lightweight this material is, it still weighs less that the CF-20. Once I've flown the Nylon 645 frames several hours I'll update with those results.
