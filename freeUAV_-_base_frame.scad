@@ -183,23 +183,12 @@ module motorHousingsBrushed(){
   }
 }
 module motorArmsQuad(){
-  difference(){
-    union(){ // Full circles for arms
-      // front/back arms
-      for(x=[-motorSpacing/2,1.5*motorSpacing]){
-        for(y=[.5*motorSpacing]){
-          translate([x,y,frameThickness/2]){
-            difference(){
-              cylinder(center=true,h=frameThickness,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter));
-              cylinder(center=true,h=frameThickness+.2,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter)-frameWidth);
-            }
-          }
-        }
-      }
-      if(fullMotorArms==1){
-        // left/right arms (temporarily omitted to save weight)
-        for(x=[.5*motorSpacing]){
-          for(y=[-motorSpacing/2,1.5*motorSpacing]){
+  union(){
+    difference(){
+      union(){ // Full circles for arms
+        // front/back arms
+        for(x=[-motorSpacing/2,1.5*motorSpacing]){
+          for(y=[.5*motorSpacing]){
             translate([x,y,frameThickness/2]){
               difference(){
                 cylinder(center=true,h=frameThickness,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter));
@@ -208,30 +197,43 @@ module motorArmsQuad(){
             }
           }
         }
-      }
-    }
-    difference(){ // Cube to remove excess of arms
-      translate([motorSpacing/2,motorSpacing/2,frameThickness/2]){
-        rotate([0,0,45]){
-          cube(center=true,[motorSpacing*4+.2,motorSpacing*4+.2,frameThickness+.2]);
+        if(fullMotorArms==1){
+          // left/right arms (temporarily omitted to save weight)
+          for(x=[.5*motorSpacing]){
+            for(y=[-motorSpacing/2,1.5*motorSpacing]){
+              translate([x,y,frameThickness/2]){
+                difference(){
+                  cylinder(center=true,h=frameThickness,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter));
+                  cylinder(center=true,h=frameThickness+.2,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter)-frameWidth);
+                }
+              }
+            }
+          }
         }
       }
-      translate([motorSpacing/2,motorSpacing/2,frameThickness/2]){
-        rotate([0,0,45]){
-          cube(center=true,[1/sin(45)*motorSpacing,1/sin(45)*motorSpacing,frameThickness+.4]);
+      difference(){ // Cube to remove excess of arms
+        translate([motorSpacing/2,motorSpacing/2,frameThickness/2]){
+          rotate([0,0,45]){
+            cube(center=true,[motorSpacing*4+.2,motorSpacing*4+.2,frameThickness+.2]);
+          }
+        }
+        translate([motorSpacing/2,motorSpacing/2,frameThickness/2]){
+          rotate([0,0,45]){
+            cube(center=true,[1/sin(45)*motorSpacing,1/sin(45)*motorSpacing,frameThickness+.4]);
+          }
         }
       }
-    }
-    // make sure brushless motor mounting holes are not obstructed by arms (TODO: find better fix for this)
-    if(motorType==1){
-      for(x=[0,motorSpacing]){
-        for(y=[0,motorSpacing]){
-          translate([x,y,0]){
-            rotate([0,0,45]){
-              for(x=[-brushlessMotorMountHoleSpacing/2,brushlessMotorMountHoleSpacing/2]){
-                for(y=[-brushlessMotorMountHoleSpacing/2,brushlessMotorMountHoleSpacing/2]){
-                  translate([x,y,-0.1]){
-                    cylinder(center=false,h=brushlessMotorPlateThickness+0.2,r=brushlessMotorMountHoleDiameter/2);
+      // make sure brushless motor mounting holes are not obstructed by arms (TODO: find better fix for this)
+      if(motorType==1){
+        for(x=[0,motorSpacing]){
+          for(y=[0,motorSpacing]){
+            translate([x,y,0]){
+              rotate([0,0,45]){
+                for(x=[-brushlessMotorMountHoleSpacing/2,brushlessMotorMountHoleSpacing/2]){
+                  for(y=[-brushlessMotorMountHoleSpacing/2,brushlessMotorMountHoleSpacing/2]){
+                    translate([x,y,-0.1]){
+                      cylinder(center=false,h=brushlessMotorPlateThickness+0.2,r=brushlessMotorMountHoleDiameter/2);
+                    }
                   }
                 }
               }
@@ -239,9 +241,27 @@ module motorArmsQuad(){
           }
         }
       }
+      translate([motorSpacing/2+electricsCarrierLength/2,motorSpacing/2,electricsCarrierThickness]){
+        cube(center=true,[electricsCarrierLength+.02,12,electricsCarrierThickness]);
+      }
     }
-    translate([motorSpacing/2+electricsCarrierLength/2,motorSpacing/2,electricsCarrierThickness]){
-      cube(center=true,[electricsCarrierLength+.02,12,electricsCarrierThickness]);
+    
+    // conical/tilted holes for 3mm LEDs (should illuminate corners of nylon frame for better orientation at night)
+    for(rotation=[0,90,180,270]){
+      translate([motorSpacing/2,motorSpacing/2,4]){
+        rotate([0,0,rotation]){
+          translate([-(motorSpacing+10.5)/2,-(motorSpacing+10.5)/2,0]){
+            rotate([10,-10,0]){
+              difference(){
+                cylinder(center=true,r1=1.9,r2=3,h=7);
+                translate([0,0,1.5]){
+                  cylinder(center=true,r=1.5,h=4.01);
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
