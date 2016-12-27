@@ -74,6 +74,8 @@ renderCarrier=1; // 1 default
 renderCarrierUpper=0; // 0 default
 renderThreeQuartersPlate=0; // 0 default
 renderFullPlate=0; // 0 default
+renderMotorPads=1; // 0 default (0 for no, 1 for yes; these are to help with warping of motor arms by placing a wide base/pad around each motor mount)
+motorPadThickness=0.3; // 0.3mm default, for typical printing settings
 
 if(renderFullPlate==0){
   completeFrame();
@@ -160,6 +162,11 @@ module motorHousingsBrushed(){
             }
             translate([x,y,0]){
               cylinder(h=motorHousingBaseHeight,r=(motorDiameter/2+frameWidth));
+            }
+            if(renderMotorPads==1){
+              translate([x,y,0]){
+                cylinder(h=0.3,r=(motorDiameter/2+frameWidth)+4);
+              }
             }
           }
           union(){
