@@ -19,7 +19,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 // Quality settings
-$fn=300; // 300 default (smoother curves)
+$fn=30; // 300 default (smoother curves)
 
 // Dimensional settings (all measurements in mm)
 // WARNING: Some of these scale, some don't (this is a WIP).
@@ -50,11 +50,17 @@ motorSpacing=62;                   // 80 default;
  */
 
 // Motor carrier parameters
-motorType=0;
+motorType=1;
 /* Supported motors
  * 0 for friction-fit brushed (change motorDiameter variable below to set motor casing size)
  * 1 for brushless (RCX H1105)
  */
+ 
+ LEDmounts=1; // default 1
+ /* Whether LED mounts are on the frame. Note:
+  * This only really works well with nylon (since the LEDs can illuminate the frame.
+  * Also, this is currently only supported for brushed motor mounts.
+  */
 
 // Brushed motor parameters
 motorDiameter=8.5;                  // 8.5 default
@@ -254,15 +260,19 @@ module motorArmsQuad(){
     }
     
     // conical/tilted holes for 3mm LEDs (should illuminate corners of nylon frame for better orientation at night)
-    for(rotation=[0,90,180,270]){
-      translate([motorSpacing/2,motorSpacing/2,5]){
-        rotate([0,0,rotation]){
-          translate([-(motorSpacing+10.5)/2,-(motorSpacing+10.5)/2,0]){
-            rotate([10,-10,0]){
-              difference(){
-                cylinder(center=true,r1=1.9,r2=3,h=8);
-                translate([0,0,0]){
-                  cylinder(center=true,r=1.65,h=8.01);
+    if(LEDmounts==1){
+      if(motorType==0){
+        for(rotation=[0,90,180,270]){
+          translate([motorSpacing/2,motorSpacing/2,5]){
+            rotate([0,0,rotation]){
+              translate([-(motorSpacing+10.5)/2,-(motorSpacing+10.5)/2,0]){
+                rotate([10,-10,0]){
+                  difference(){
+                    cylinder(center=true,r1=1.9,r2=3,h=8);
+                    translate([0,0,0]){
+                      cylinder(center=true,r=1.65,h=8.01);
+                    }
+                  }
                 }
               }
             }
