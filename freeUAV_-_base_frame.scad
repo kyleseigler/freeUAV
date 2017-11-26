@@ -19,13 +19,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 // Quality settings
-$fn=30; // 300 default (smoother curves)
+$fn=300; // 300 default (smoother curves)
 
 // Dimensional settings (all measurements in mm)
 // WARNING: Some of these scale, some don't (this is a WIP).
 // Default values in comments--these should work properly.
 
-// Inner frame parameters (defaults are for Micro Scisky
+// Inner frame parameters (defaults are for Micro Scisky)
 electricsCarrierLength=48;              // 42 default for Micro Scisky, 43 for slightly better clearance
 electricsCarrierWidth=25.5;             // 25.5 default for Micro Scisky
 electricsCarrierThickness=3;            // 3 default
@@ -33,14 +33,14 @@ electricsCarrierUpperLift=10;           // 10 default
 electricsCarrierFrameOuterWidth=3;      // 3 default, 1.8 for lightweight version
 electricsCarrierM3ScrewHolePadding=1.2; // 2.3 default, 1.5 for lightweight version
 batteryMountType=1;                     // 0 for rubber band tabs, 1 for velcro battery strap
-batteryStrapWidth=12;                   // 20 default
-batteryStrapOpening=3;                  // 3 default
-batteryStrapThickness=2;                // 1.5 default
+batteryStrapWidth=14;                   // 20 default
+batteryStrapOpening=3.5;                  // 3 default
+batteryStrapThickness=1.5;                // 1.5 default
 fullMotorArms=1;                        // true default
 
 // Outer frame parameters
-frameThickness=3;                  // 3 default
-frameWidth=4.5;                      // 4.5 default, 3 for lightweight version
+frameThickness=2;                  // 3 default
+frameWidth=3;                      // 4.5 default, 3 for lightweight version
 motorSpacing=62;                   // 80 default; 
 /* 56 is 80-class
  * 62 is 87-class
@@ -50,13 +50,15 @@ motorSpacing=62;                   // 80 default;
  */
 
 // Motor carrier parameters
-motorType=1;
+motorType=0;
 /* Supported motors
  * 0 for friction-fit brushed (change motorDiameter variable below to set motor casing size)
  * 1 for brushless (RCX H1105)
  */
  
- LEDmounts=1; // default 1
+ // Other parameters
+ fpvCameraMount=0;  // default 1
+ LEDmounts=0;       // default 1
  /* Whether LED mounts are on the frame. Note:
   * This only really works well with nylon (since the LEDs can illuminate the frame.
   * Also, this is currently only supported for brushed motor mounts.
@@ -80,7 +82,7 @@ renderCarrier=1; // 1 default
 renderCarrierUpper=0; // 0 default
 renderThreeQuartersPlate=0; // 0 default
 renderFullPlate=0; // 0 default
-renderMotorPads=1; // 0 default (0 for no, 1 for yes; these are to help with warping of motor arms by placing a wide base/pad around each motor mount)
+renderMotorPads=0; // 0 default (0 for no, 1 for yes; these are to help with warping of motor arms by placing a wide base/pad around each motor mount)
 motorPadThickness=0.3; // 0.3mm default, for typical printing settings
 
 if(renderFullPlate==0){
@@ -375,43 +377,45 @@ module electricsCarrierBase(){
     }
   }
   // fpv camera mount
-  union(){
-    difference(){
-      translate([4,motorSpacing/2,12]){
-        difference(){
-          translate([0,0,-4]){
-            cube(center=true,[5,electricsCarrierWidth,16]);
-          }
-          translate([0,0,3]){
-            rotate([0,90,0]){
-              cylinder(center=true,h=5.1,r=4);
+  if(fpvCameraMount==1){
+    union(){
+      difference(){
+        translate([4,motorSpacing/2,12]){
+          difference(){
+            translate([0,0,-4]){
+              cube(center=true,[5,electricsCarrierWidth,16]);
             }
-          }
-          translate([0,0,-12]){
-            rotate([0,90,0]){
-              cylinder($fn=6,center=true,h=5.1,r=6);
-            }
-          }
-          for(y=[-18,18]){
-            translate([0,y,2]){
+            translate([0,0,3]){
               rotate([0,90,0]){
-                cylinder($fn=6,center=true,h=35.1,r=10);
+                cylinder(center=true,h=5.1,r=4);
+              }
+            }
+            translate([0,0,-12]){
+              rotate([0,90,0]){
+                cylinder($fn=6,center=true,h=5.1,r=6);
+              }
+            }
+            for(y=[-18,18]){
+              translate([0,y,2]){
+                rotate([0,90,0]){
+                  cylinder($fn=6,center=true,h=35.1,r=10);
+                }
               }
             }
           }
         }
       }
-    }
-    /*
-    difference(){
-      translate([-3,motorSpacing/2,electricsCarrierThickness/2]){
-        cube(center=true,[16,electricsCarrierWidth,electricsCarrierThickness]);
+      /*
+      difference(){
+        translate([-3,motorSpacing/2,electricsCarrierThickness/2]){
+          cube(center=true,[16,electricsCarrierWidth,electricsCarrierThickness]);
+        }
+        translate([-3,motorSpacing/2,electricsCarrierThickness/2]){
+          cube(center=true,[16.01,electricsCarrierWidth-5,electricsCarrierThickness+.01]);
+        }      
       }
-      translate([-3,motorSpacing/2,electricsCarrierThickness/2]){
-        cube(center=true,[16.01,electricsCarrierWidth-5,electricsCarrierThickness+.01]);
-      }      
+      */
     }
-    */
   }
   // posts and holes for M3 fasteners to connect lower base frame to upper frame (for additional modules such as FPV, OSD, etc)
   difference(){
