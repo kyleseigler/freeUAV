@@ -6,7 +6,7 @@ freeUAV is an open-source micro quadcopter platform, 3d-printed in carbon-fiber 
 
 Written in OpenSCAD, it is designed to be parametric, durable, and affordable.
 
-**#Why did you make it?**
+**Why did you make it?**
 
 I've wanted to build a quadcopter for a long time now, but I also wanted to improve my OpenSCAD programming skills. What better way than to design my own frame?
 
@@ -42,7 +42,7 @@ Here they are:
 
 * Approximate flight time with 300mAh battery: **(need to re-time)**
 
-**#What components do you fly?**
+**What components do you fly?**
 
 Here are the parts are recommended with the current version of freeUAV:
 
