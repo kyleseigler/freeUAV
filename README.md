@@ -1,7 +1,5 @@
 **freeUAV** - a 3d-printable micro brushed quadcopter platform
 
-**Soon, freeUAV is changing its name to Trigona minima, after the Earth's smallest bee.**
-
 freeUAV is an open-source micro quadcopter platform, 3d-printed in carbon-fiber reinforced engineering plastic.
 
 Written in OpenSCAD, it is designed to be parametric, durable, and affordable.
@@ -55,7 +53,5 @@ Here are the parts are recommended with the current version of freeUAV:
 * [Turnigy nano-tech 300mAh Li-Po batteries](https://www.hobbyking.com/hobbyking/store/%5F%5F59257%5F%5FTurnigy%5Fnano%5Ftech%5F300mah%5F1S%5F45%5F90C%5FLipo%5FPack%5FFits%5FNine%5FEagles%5FSolo%5FPro%5F100%5FAR%5FWarehouse%5F.html)
 
 I control this with a Taranis X9D Plus, using a [3d-printed Spektrum module case](https://www.thingiverse.com/thing:293608) and wired according to [this guide on flitetest](http://flitetest.com/articles/spektrofy-your-taranis).
-
-I'm only offering this frame in XT-CF20 because it's the best I've found so far--but if you never crash, PLA would also be a good choice!
 
 I recommend this frame being printed in a strong, durable material. My current favorite material is ColorFabb's XT-CF20 but I will be testing MakeShaper's PETG as well, since looks like it will work well too. Once I log enough time testing this material, I'll update this README.
