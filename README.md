@@ -1,4 +1,4 @@
-#**freeUAV** - a 3d-printable micro brushed quadcopter platform#
+**freeUAV** - a 3d-printable micro brushed quadcopter platform
 
 **Soon, freeUAV is changing its name to Trigona minima, after the Earth's smallest bee.**
 
@@ -6,7 +6,7 @@ freeUAV is an open-source micro quadcopter platform, 3d-printed in carbon-fiber 
 
 Written in OpenSCAD, it is designed to be parametric, durable, and affordable.
 
-###Why did you make it?###
+**#Why did you make it?**
 
 I've wanted to build a quadcopter for a long time now, but I also wanted to improve my OpenSCAD programming skills. What better way than to design my own frame?
 
@@ -42,7 +42,7 @@ Here they are:
 
 * Approximate flight time with 300mAh battery: **(need to re-time)**
 
-###What components do you fly?###
+**#What components do you fly?**
 
 Here are the parts are recommended with the current version of freeUAV:
 
@@ -56,10 +56,6 @@ Here are the parts are recommended with the current version of freeUAV:
 
 I control this with a Taranis X9D Plus, using a [3d-printed Spektrum module case](https://www.thingiverse.com/thing:293608) and wired according to [this guide on flitetest](http://flitetest.com/articles/spektrofy-your-taranis).
 
-###Well then, how can I get one?###
-
-You can order a frame from me, through [my Tindie store](https://www.tindie.com/stores/C_Blackstone/) (if you want to support the designer) or print it out yourself! The code is [here on my github](https://github.com/kyleseigler/freeUAV). I highly recommend using the most rigid plastic you can find. PLA actually performs well due to its rigidity, it just breaks easily in crashes. I've also flown several test frames printed with ColorFabb's nGen engineering plastic. It's a wonderful material, but not for this; it flexes too much for controlled flight, and it tends to shatter during hard crashes.
-
 I'm only offering this frame in XT-CF20 because it's the best I've found so far--but if you never crash, PLA would also be a good choice!
 
-Currently, I am testing this frame with Taulman's Nylon 645, which seems to be extremely durable (even if it's slightly flexible). I'm able to print the frame marginally thicker for rigidity and durability, but due to how lightweight this material is, it still weighs less that the CF-20. Once I've flown the Nylon 645 frames several hours I'll update with those results.
+I recommend this frame being printed in a strong, durable material. My current favorite material is ColorFabb's XT-CF20 but I will be testing MakeShaper's PETG as well, since looks like it will work well too. Once I log enough time testing this material, I'll update this README.
