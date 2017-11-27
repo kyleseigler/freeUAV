@@ -44,7 +44,7 @@ electricsCarrierFrameOuterWidth=2;      // 3 default, 1.8 for lightweight versio
 electricsCarrierM3ScrewHolePadding=2.2; // 2.2 default, 1.5 for lightweight version
 batteryMountType=1;                     // 0 for rubber band tabs, 1 for velcro battery strap
 batteryStrapWidth=14;                   // 14 default
-batteryStrapOpening=5;                  // 3.5 default
+batteryStrapOpening=3.5;                  // 3.5 default
 batteryStrapThickness=2;                // 1.5 default
 fullMotorArms=1;                        // 1 default
 
@@ -59,17 +59,22 @@ motorSpacing=80;                        // 80 default
  * 88 is 125-class
  */
 
-// Motor carrier parameters
+// Motor parameters
 motorType=1;
-/* Supported motors
+/* Supported motor types
  * 0 for friction-fit brushed (change motorDiameter variable below to set motor casing size)
- * 1 for brushless (RCX H1105)
+ * 1 for brushless (currently only RCX H1105)
+ */
+motorArrangement=0;
+/* Supported motor arrangements
+ * 0 for X-type quadrotor
+ * 1 for hexarotor (TODO: implement hexarotor motor carrier layout)
  */
  
 // Other parameters
 fpvCameraMount=0;  // default 1
 cameraAngle=15;    // default 15
-LEDmounts=0;       // default 1
+LEDmounts=0;       // default 0, only works for Micro Scisky/brushed motors at this time
 /* Whether LED mounts are on the frame. Note:
 * This only really works well with nylon (since the LEDs can illuminate the frame.
 * Also, this is currently only supported for brushed motor mounts.
@@ -200,7 +205,7 @@ module motorArmsQuad(){
             for(y=[-motorSpacing/2,1.5*motorSpacing]){
               translate([x,y,frameThickness/2]){
                 if(FC==1){
-                  scale([.865,1.225,1]){
+                  scale([.865,1.25,1]){
                     difference(){
                       cylinder(center=true,h=frameThickness,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter));
                       cylinder(center=true,h=frameThickness+.2,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter)-frameWidth);
@@ -242,8 +247,11 @@ module motorArmsQuad(){
           }
         }
       }
-      translate([motorSpacing/2+electricsCarrierLength/2,motorSpacing/2,electricsCarrierThickness]){
-        cube(center=true,[electricsCarrierLength+.02,12,electricsCarrierThickness]);
+      // cutout for micro-USB connector at rear of Micro Scisky
+      if(FC==0){
+        translate([motorSpacing/2+electricsCarrierLength/2,motorSpacing/2,electricsCarrierThickness]){
+          cube(center=true,[electricsCarrierLength+.02,12,electricsCarrierThickness]);
+        }
       }
     }
     
@@ -320,8 +328,10 @@ module electricsCarrierBase(){
         }
       }
       // cutout for micro-USB connector at rear of Micro Scisky
-      translate([motorSpacing/2+electricsCarrierLength/2,motorSpacing/2,electricsCarrierThickness]){
-        cube(center=true,[electricsCarrierLength+.02,12,electricsCarrierThickness]);
+      if(FC==0){
+        translate([motorSpacing/2+electricsCarrierLength/2,motorSpacing/2,electricsCarrierThickness]){
+          cube(center=true,[electricsCarrierLength+.02,12,electricsCarrierThickness]);
+        }
       }
     }
     // different types of battery/electrics mounting methods

@@ -19,7 +19,7 @@ Due to a few design traits (light weight, lower/centered flight controller, and 
 
 **2. It's open-source**
 
-I'm releasing my source code to this frame so everyone is free to make their own, improve it, or even sell it! It's about freedom, baby.
+I'm releasing my source code to this frame so everyone is free to make their own, improve it, or even sell it!
 
 **3. It's durable**
 
@@ -30,13 +30,13 @@ What about the tech specs?
 
 Here they are:
 
-* Printed and assembled frame weight: **7 grams**
+* Printed and assembled frame weight: **(need to re-weigh)**
 
 * Fully build weight without battery: **(need to re-weigh)**
 
 * Full weight including 300mAh battery: **(need to re-weigh)**
 
-* Size: **87mm class** (motor-to-motor diagonal distance--this can be changed easily in the OpenSCAD source file)
+* Size: **113mm class** (motor-to-motor diagonal distance--this can be changed easily in the OpenSCAD source file)
 
 * Approximate flight time with 300mAh battery: **(need to re-time)**
 
