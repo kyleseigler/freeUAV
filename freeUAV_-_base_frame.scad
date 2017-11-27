@@ -9,7 +9,7 @@
 
 /*The MIT License (MIT)
 
-Copyright (c) 2016 Kyle Seigler
+Copyright (c) 2017 Kyle Seigler
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -25,23 +25,33 @@ $fn=300; // 300 default (smoother curves)
 // WARNING: Some of these scale, some don't (this is a WIP).
 // Default values in comments--these should work properly.
 
-// Inner frame parameters (defaults are for Micro Scisky)
-electricsCarrierLength=48;              // 42 default for Micro Scisky, 43 for slightly better clearance
-electricsCarrierWidth=25.5;             // 25.5 default for Micro Scisky
+// Inner frame parameters (need to be manually changed depending on flight controller)
+FC=1;                                   // 0 for Micro Scisky
+                                        // 1 for Naze32
+electricsCarrierLength=36;              // 48 default for Micro Scisky
+                                        // 36 default for Naze32
+electricsCarrierWidth=36;               // 25.5 default for Micro Scisky
+                                        // 36 default for Naze32
+electricsCarrierHoleSpacingX=30.5;      // "(electricsCarrierLength/2)+2" default for Micro Scisky
+                                        // 30.5 default for Naze32
+electricsCarrierHoleSpacingY=30.5;      // "(electricsCarrierWidth/2)+2" default for Micro Scisky
+                                        // 30.5 default for Naze 32
+
+// General dimensional options
 electricsCarrierThickness=3;            // 3 default
 electricsCarrierUpperLift=10;           // 10 default
-electricsCarrierFrameOuterWidth=3;      // 3 default, 1.8 for lightweight version
-electricsCarrierM3ScrewHolePadding=1.2; // 2.3 default, 1.5 for lightweight version
+electricsCarrierFrameOuterWidth=2;      // 3 default, 1.8 for lightweight version
+electricsCarrierM3ScrewHolePadding=2.2; // 2.2 default, 1.5 for lightweight version
 batteryMountType=1;                     // 0 for rubber band tabs, 1 for velcro battery strap
-batteryStrapWidth=14;                   // 20 default
-batteryStrapOpening=3.5;                  // 3 default
-batteryStrapThickness=1.5;                // 1.5 default
-fullMotorArms=1;                        // true default
+batteryStrapWidth=14;                   // 14 default
+batteryStrapOpening=5;                  // 3.5 default
+batteryStrapThickness=2;                // 1.5 default
+fullMotorArms=1;                        // 1 default
 
 // Outer frame parameters
-frameThickness=2;                  // 3 default
-frameWidth=3;                      // 4.5 default, 3 for lightweight version
-motorSpacing=62;                   // 80 default; 
+frameThickness=3;                       // 3 default
+frameWidth=3;                           // 3 default
+motorSpacing=80;                        // 80 default
 /* 56 is 80-class
  * 62 is 87-class
  * 70 is 100-class
@@ -50,19 +60,20 @@ motorSpacing=62;                   // 80 default;
  */
 
 // Motor carrier parameters
-motorType=0;
+motorType=1;
 /* Supported motors
  * 0 for friction-fit brushed (change motorDiameter variable below to set motor casing size)
  * 1 for brushless (RCX H1105)
  */
  
- // Other parameters
- fpvCameraMount=0;  // default 1
- LEDmounts=0;       // default 1
- /* Whether LED mounts are on the frame. Note:
-  * This only really works well with nylon (since the LEDs can illuminate the frame.
-  * Also, this is currently only supported for brushed motor mounts.
-  */
+// Other parameters
+fpvCameraMount=0;  // default 1
+cameraAngle=15;    // default 15
+LEDmounts=0;       // default 1
+/* Whether LED mounts are on the frame. Note:
+* This only really works well with nylon (since the LEDs can illuminate the frame.
+* Also, this is currently only supported for brushed motor mounts.
+*/
 
 // Brushed motor parameters
 motorDiameter=8.5;                  // 8.5 default
@@ -79,45 +90,12 @@ brushlessMotorPlateThickness=3;              // 4 default
 // Which pieces to generate (1 for yes, 2 for no)
 renderFrame=1; // 1 default
 renderCarrier=1; // 1 default
-renderCarrierUpper=0; // 0 default
-renderThreeQuartersPlate=0; // 0 default
-renderFullPlate=0; // 0 default
+renderCarrierUpper=1; // 0 default
 renderMotorPads=0; // 0 default (0 for no, 1 for yes; these are to help with warping of motor arms by placing a wide base/pad around each motor mount)
 motorPadThickness=0.3; // 0.3mm default, for typical printing settings
 
-if(renderFullPlate==0){
-  completeFrame();
-}
-// 4x rendered to fit on a Prusa i3 bed (needs to be tested)
-if(renderFullPlate==1){
-  translate([0,0,0]){
-    completeFrame();
-  }
-  translate([-(motorSpacing+2.2*motorDiameter),0,0]){
-    completeFrame();
-  }
-  translate([0,-(motorSpacing+motorDiameter*2.2),0]){
-    completeFrame();
-  }
-  translate([-(motorSpacing+2.2*motorDiameter),-(motorSpacing+motorDiameter*2.2),0]){
-    completeFrame();
-  }
-}
-// 3x rendered to fit on a Prusa i3 bed (fits on Kyle's RepRap if skirt is shrunk slightly)
-if(renderThreeQuartersPlate==1){
-  rotate([0,0,90]){
-    translate([0,0,0]){
-      completeFrame();
-    }
-    translate([-(motorSpacing+motorDiameter/2.5),-(motorSpacing/2+motorDiameter*1.1),0]){
-      completeFrame();
-    }
-    translate([0,-(motorSpacing+motorDiameter*2.2),0]){
-      completeFrame();
-    }
-  }
-}
-  
+completeFrame();
+
 // Modules
 module completeFrame(){
   if(renderFrame==1){
@@ -205,9 +183,13 @@ module motorArmsQuad(){
         for(x=[-motorSpacing/2,1.5*motorSpacing]){
           for(y=[.5*motorSpacing]){
             translate([x,y,frameThickness/2]){
-              difference(){
-                cylinder(center=true,h=frameThickness,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter));
-                cylinder(center=true,h=frameThickness+.2,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter)-frameWidth);
+              if(FC==1){
+                scale([1.25,.865,1]){
+                  difference(){
+                    cylinder(center=true,h=frameThickness,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter));
+                    cylinder(center=true,h=frameThickness+.2,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter)-frameWidth);
+                  }
+                }
               }
             }
           }
@@ -217,9 +199,13 @@ module motorArmsQuad(){
           for(x=[.5*motorSpacing]){
             for(y=[-motorSpacing/2,1.5*motorSpacing]){
               translate([x,y,frameThickness/2]){
-                difference(){
-                  cylinder(center=true,h=frameThickness,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter));
-                  cylinder(center=true,h=frameThickness+.2,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter)-frameWidth);
+                if(FC==1){
+                  scale([.865,1.225,1]){
+                    difference(){
+                      cylinder(center=true,h=frameThickness,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter));
+                      cylinder(center=true,h=frameThickness+.2,r=1/sin(45)*motorSpacing/2-(.5*motorDiameter)-frameWidth);
+                    }
+                  }
                 }
               }
             }
@@ -326,8 +312,8 @@ module electricsCarrierBase(){
           }
         }
       }
-      for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
-        for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
+      for(x=[(.5*motorSpacing)-electricsCarrierHoleSpacingX/2,(.5*motorSpacing)+electricsCarrierHoleSpacingX/2]){
+        for(y=[(.5*motorSpacing)-electricsCarrierHoleSpacingY/2,(.5*motorSpacing)+electricsCarrierHoleSpacingY/2]){
           translate([x,y,-0.1]){
             cylinder(h=8.2,r=1.7);
           }
@@ -343,7 +329,7 @@ module electricsCarrierBase(){
       difference(){
         translate([motorSpacing/2,motorSpacing/2,1.5]){ // 40,40,1.5
           for(x=[-7,7]){ // for 4 tabs use [-15,-5,5,15]
-            for(y=[-14,14]){
+            for(y=[-electricsCarrierWidth/2,electricsCarrierWidth/2]){ // was -14,14
               translate([x,y,0]){
                 cube(center=true,[4,6,3]);
               }
@@ -351,10 +337,9 @@ module electricsCarrierBase(){
           }
         }
         // small cutouts to help hold onto the rubber bands
-        /*
         translate([motorSpacing/2,motorSpacing/2,1.5]){
           for(x=[-7,7]){ // for 4 tabs use [-15,-5,5,15]
-            for(y=[-14,14]){
+            for(y=[-electricsCarrierWidth/2-1,electricsCarrierWidth/2+1]){
               translate([x,y,2]){
                 rotate([0,90,0]){
                   cylinder(center=true,h=4.01,r=1.2);
@@ -363,7 +348,6 @@ module electricsCarrierBase(){
             }
           }
         }
-        */
       }
     }
     if(batteryMountType==1){ // small loops for velcro battery strap
@@ -420,8 +404,8 @@ module electricsCarrierBase(){
   // posts and holes for M3 fasteners to connect lower base frame to upper frame (for additional modules such as FPV, OSD, etc)
   difference(){
     union(){
-      for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
-        for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
+      for(x=[(.5*motorSpacing)-electricsCarrierHoleSpacingX/2,(.5*motorSpacing)+electricsCarrierHoleSpacingX/2]){
+        for(y=[(.5*motorSpacing)-electricsCarrierHoleSpacingY/2,(.5*motorSpacing)+electricsCarrierHoleSpacingY/2]){
           translate([x,y,0]){
             cylinder(h=3,r=electricsCarrierM3ScrewHolePadding+1.7);
           }
@@ -447,8 +431,8 @@ module electricsCarrierBase(){
       */
     }
     union(){
-      for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
-        for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
+      for(x=[(.5*motorSpacing)-electricsCarrierHoleSpacingX/2,(.5*motorSpacing)+electricsCarrierHoleSpacingX/2]){
+        for(y=[(.5*motorSpacing)-electricsCarrierHoleSpacingY/2,(.5*motorSpacing)+electricsCarrierHoleSpacingY/2]){
           translate([x,y,-0.1]){
             cylinder(h=3.2,r=1.7); // should be r=1.7 for a nice fit with M3 screws
           }
@@ -469,21 +453,35 @@ module electricsCarrierUpper(){
           translate([motorSpacing/2-electricsCarrierFrameOuterWidth,motorSpacing/2,electricsCarrierThickness/2]){
             cube(center=true,[electricsCarrierLength,electricsCarrierWidth-2*electricsCarrierFrameOuterWidth,electricsCarrierThickness+2]);
           }
-          for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
-            for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
+          for(x=[(.5*motorSpacing)-electricsCarrierHoleSpacingX/2,(.5*motorSpacing)+electricsCarrierHoleSpacingX/2]){
+            for(y=[(.5*motorSpacing)-electricsCarrierHoleSpacingY/2,(.5*motorSpacing)+electricsCarrierHoleSpacingY/2]){
               translate([x,y,-0.1]){
                 cylinder(h=8.2,r=1.7);
               }
             }
           }
         }
-        translate([motorSpacing/2-electricsCarrierLength/2.9,motorSpacing/2,4]){ // mounting opening for FPV camera
+        translate([motorSpacing/2-electricsCarrierLength/3.5,motorSpacing/2,4]){ // mounting opening for FPV camera
           difference(){
-            cube(center=true,[3,electricsCarrierWidth,8]);
-            translate([0,0,3]){
-              rotate([0,90,0]){
-                cylinder(center=true,h=3.1,r=4);
+            rotate([0,cameraAngle,0]){
+              difference(){
+                translate([-1.5,0,-4]){
+                  rotate([0,90,0]){
+                    scale([.5,1,1]){
+                      cylinder(r=electricsCarrierWidth/2,h=3);
+                    }
+                  }
+                }
+                translate([0,0,3]){
+                  rotate([0,90,0]){
+                    cylinder(center=true,h=3.1,r=4);
+                  }
+                }
               }
+            }
+            
+            translate([-10,0,-9]){
+              cube(center=true,[40,electricsCarrierWidth,10]);
             }
           }
         }
@@ -491,8 +489,8 @@ module electricsCarrierUpper(){
       // posts and holes for M3 fasteners to connect lower base frame to upper frame (for additional modules such as FPV, OSD, etc)
       difference(){
         union(){
-          for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
-            for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
+          for(x=[(.5*motorSpacing)-electricsCarrierHoleSpacingX/2,(.5*motorSpacing)+electricsCarrierHoleSpacingX/2]){
+            for(y=[(.5*motorSpacing)-electricsCarrierHoleSpacingY/2,(.5*motorSpacing)+electricsCarrierHoleSpacingY/2]){
               translate([x,y,0]){
                 cylinder(h=3,r=electricsCarrierM3ScrewHolePadding+1.7);
               }
@@ -500,8 +498,8 @@ module electricsCarrierUpper(){
           }
         }
         union(){
-          for(x=[(.5*motorSpacing)-(electricsCarrierLength/2)+2,(.5*motorSpacing)+(electricsCarrierLength/2)-2]){
-            for(y=[(.5*motorSpacing)-(electricsCarrierWidth/2)+2,(.5*motorSpacing)+(electricsCarrierWidth/2)-2]){
+          for(x=[(.5*motorSpacing)-electricsCarrierHoleSpacingX/2,(.5*motorSpacing)+electricsCarrierHoleSpacingX/2]){
+            for(y=[(.5*motorSpacing)-electricsCarrierHoleSpacingY/2,(.5*motorSpacing)+electricsCarrierHoleSpacingY/2]){
               translate([x,y,-0.1]){
                 cylinder(h=3.2,r=1.7); // should be r=1.7 for a nice fit with M3 screws
               }
